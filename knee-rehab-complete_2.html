@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="康复助手">
+    <title>膝盖康复助手</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 26px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .progress-section {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 15px;
+        }
+
+        .progress-item {
+            text-align: center;
+        }
+
+        .progress-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .progress-label {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .notification-setup {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .notification-setup button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .notification-setup.enabled {
+            background: #d4edda;
+        }
+
+        .notification-warning {
+            background: #f8d7da;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #721c24;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .time-settings {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .time-input {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .time-input label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .time-input input {
+            padding: 8px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .checkin-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .checkin-btn {
+            flex: 1;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .checkin-btn.completed {
+            background: linear-gradient(135deg, #52c234 0%, #61b15a 100%);
+        }
+
+        .undo-btn {
+            flex: 0 0 auto;
+            padding: 20px;
+            background: #ff9800;
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .undo-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .exercises {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .exercise-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+        }
+
+        .exercise-item.phase1 {
+            border-left: 4px solid #ffa726;
+        }
+
+        .exercise-item.phase2 {
+            border-left: 4px solid #667eea;
+        }
+
+        .exercise-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .phase-tag {
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-weight: normal;
+        }
+
+        .phase-tag.phase1 {
+            background: #ffe0b2;
+            color: #e65100;
+        }
+
+        .phase-tag.phase2 {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .exercise-details {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .calendar-section {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .month-selector {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .month-selector button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .month-selector button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .month-title {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 16px;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+
+        .calendar-header {
+            text-align: center;
+            font-size: 10px;
+            color: #999;
+            padding: 5px 0;
+            font-weight: bold;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .calendar-day.other-month {
+            opacity: 0.3;
+        }
+
+        .calendar-day.checked {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .calendar-day.today {
+            border-color: #764ba2;
+            border-width: 3px;
+        }
+
+        .legend {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 15px;
+            font-size: 12px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .legend-box {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        .legend-box.phase1 {
+            background: #ffa726;
+        }
+
+        .legend-box.phase2 {
+            background: #667eea;
+        }
+
+        .note {
+            background: #fff3cd;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #856404;
+            margin-top: 15px;
+            line-height: 1.5;
+        }
+
+        .reset-btn {
+            width: 100%;
+            padding: 12px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🦵 膝盖康复助手</h1>
+        <p class="subtitle">康复训练计划（180天）<br>坚持训练，早日恢复</p>
+
+        <div class="progress-section">
+            <div class="progress-info">
+                <div class="progress-item">
+                    <div class="progress-number" id="dayNumber">1</div>
+                    <div class="progress-label">第几天</div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-number" id="totalCheckins">0</div>
+                    <div class="progress-label">累计打卡</div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-number" id="streak">0</div>
+                    <div class="progress-label">连续天数</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="notification-warning">
+            ⚠️ <strong>iPhone通知说明：</strong><br>
+            网页通知在iPhone上不稳定，建议使用iPhone自带的"提醒事项"App设置每日重复提醒。
+        </div>
+
+        <div class="notification-setup" id="notificationStatus">
+            <p>🔔 尝试开启浏览器通知（电脑端推荐）</p>
+            <button onclick="enableNotifications()">开启通知</button>
+            <div class="time-settings" style="display:flex;" id="timeSettings">
+                <div class="time-input">
+                    <label>早上提醒</label>
+                    <input type="time" id="morningTime" value="08:00">
+                </div>
+                <div class="time-input">
+                    <label>晚上提醒</label>
+                    <input type="time" id="eveningTime" value="19:00">
+                </div>
+            </div>
+        </div>
+
+        <div class="checkin-buttons">
+            <button class="checkin-btn" id="checkinBtn" onclick="dailyCheckin()">
+                今日训练打卡
+            </button>
+            <button class="undo-btn" id="undoBtn" onclick="undoCheckin()" disabled>
+                撤销
+            </button>
+        </div>
+
+        <div class="exercises">
+            <h3 style="margin-bottom: 15px; color: #667eea;">📋 康复训练计划</h3>
+            
+            <div class="exercise-item phase1">
+                <div class="exercise-title">
+                    <span>1. 单腿站立</span>
+                    <span class="phase-tag phase1">第1-20天</span>
+                </div>
+                <div class="exercise-details">
+                    睁眼30秒/个，闭眼15秒/个，2-3个/组，2组/天<br>
+                    <small style="color: #999;">训练时应完全无痛，目的在于改善肌肉功能</small>
+                </div>
+            </div>
+            
+            <div class="exercise-item phase2">
+                <div class="exercise-title">
+                    <span>2. 靠墙静蹲</span>
+                    <span class="phase-tag phase2">第20天起</span>
+                </div>
+                <div class="exercise-details">
+                    30-120秒/个，2-3个/天或隔天<br>
+                    <small style="color: #999;">训练时应完全无痛，目的在于改善肌肉功能</small>
+                </div>
+            </div>
+
+            <div class="exercise-item phase2">
+                <div class="exercise-title">
+                    <span>3. 双腿下蹲</span>
+                    <span class="phase-tag phase2">第20天起</span>
+                </div>
+                <div class="exercise-details">
+                    10-20个/组，2-3组/天或隔天<br>
+                    <small style="color: #999;">训练时应完全无痛，目的在于改善肌肉功能</small>
+                </div>
+            </div>
+
+            <div class="exercise-item phase2">
+                <div class="exercise-title">
+                    <span>4. 前向弓步</span>
+                    <span class="phase-tag phase2">第20天起</span>
+                </div>
+                <div class="exercise-details">
+                    10-20个/组，2-3组/天或隔天<br>
+                    <small style="color: #999;">训练时应完全无痛，目的在于改善肌肉功能</small>
+                </div>
+            </div>
+
+            <div class="exercise-item phase2">
+                <div class="exercise-title">
+                    <span>5. 后向弓步</span>
+                    <span class="phase-tag phase2">第20天起</span>
+                </div>
+                <div class="exercise-details">
+                    10-20个/组，2-3组/天或隔天<br>
+                    <small style="color: #999;">训练时应完全无痛，目的在于改善肌肉功能</small>
+                </div>
+            </div>
+
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-box phase1"></div>
+                    <span>第1-20天</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-box phase2"></div>
+                    <span>第20天开始</span>
+                </div>
+            </div>
+
+            <div class="note">
+                ⚠️ <strong>重要提示：</strong>需要进行支具调节，无痛且高质量的肌肉功能训练可以保护并促进组织修复。
+            </div>
+        </div>
+
+        <div class="calendar-section">
+            <div class="month-selector">
+                <button onclick="changeMonth(-1)">◀ 上月</button>
+                <div class="month-title" id="monthTitle">2026年2月</div>
+                <button onclick="changeMonth(1)">下月 ▶</button>
+            </div>
+            <div class="calendar-grid" id="calendar"></div>
+        </div>
+
+        <button class="reset-btn" onclick="resetProgress()">🔄 重置康复计划</button>
+    </div>
+
+    <script>
+        // 初始化数据
+        let rehabData = JSON.parse(localStorage.getItem('rehabData')) || {
+            startDate: new Date().toISOString().split('T')[0],
+            checkins: [],
+            notificationsEnabled: false,
+            morningTime: '08:00',
+            eveningTime: '19:00'
+        };
+
+        // 当前查看的月份
+        let viewingMonth = new Date();
+
+        // 保存数据
+        function saveData() {
+            localStorage.setItem('rehabData', JSON.stringify(rehabData));
+        }
+
+        // 计算从开始第几天
+        function getCurrentDay() {
+            const start = new Date(rehabData.startDate);
+            const today = new Date();
+            start.setHours(0, 0, 0, 0);
+            today.setHours(0, 0, 0, 0);
+            const diffTime = today - start;
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            return diffDays + 1;
+        }
+
+        // 获取今天日期字符串
+        function getTodayString() {
+            return new Date().toISOString().split('T')[0];
+        }
+
+        // 今日打卡
+        function dailyCheckin() {
+            const today = getTodayString();
+            if (!rehabData.checkins.includes(today)) {
+                rehabData.checkins.push(today);
+                saveData();
+                updateUI();
+                alert('✅ 打卡成功！坚持就是胜利！');
+            } else {
+                alert('今天已经打卡过了哦！');
+            }
+        }
+
+        // 撤销今日打卡
+        function undoCheckin() {
+            const today = getTodayString();
+            const index = rehabData.checkins.indexOf(today);
+            if (index > -1) {
+                if (confirm('确定要撤销今天的打卡吗？')) {
+                    rehabData.checkins.splice(index, 1);
+                    saveData();
+                    updateUI();
+                }
+            }
+        }
+
+        // 检查今天是否打卡
+        function isTodayChecked() {
+            return rehabData.checkins.includes(getTodayString());
+        }
+
+        // 计算连续天数
+        function calculateStreak() {
+            if (rehabData.checkins.length === 0) return 0;
+            
+            const sortedCheckins = [...rehabData.checkins].sort().reverse();
+            let streak = 0;
+            let currentDate = new Date();
+            currentDate.setHours(0, 0, 0, 0);
+            
+            for (let checkin of sortedCheckins) {
+                const checkinDate = new Date(checkin);
+                checkinDate.setHours(0, 0, 0, 0);
+                
+                const expectedDate = new Date(currentDate);
+                expectedDate.setDate(expectedDate.getDate() - streak);
+                
+                const diff = Math.floor((checkinDate - expectedDate) / (1000 * 60 * 60 * 24));
+                
+                if (diff === 0) {
+                    streak++;
+                } else if (diff < 0) {
+                    break;
+                }
+            }
+            
+            return streak;
+        }
+
+        // 更新UI
+        function updateUI() {
+            const dayNum = getCurrentDay();
+            document.getElementById('dayNumber').textContent = dayNum;
+            document.getElementById('totalCheckins').textContent = rehabData.checkins.length;
+            document.getElementById('streak').textContent = calculateStreak();
+
+            // 更新打卡按钮
+            const checkinBtn = document.getElementById('checkinBtn');
+            const undoBtn = document.getElementById('undoBtn');
+            
+            if (isTodayChecked()) {
+                checkinBtn.classList.add('completed');
+                checkinBtn.textContent = '今日已打卡 ✓';
+                undoBtn.disabled = false;
+            } else {
+                checkinBtn.classList.remove('completed');
+                checkinBtn.textContent = '今日训练打卡';
+                undoBtn.disabled = true;
+            }
+
+            // 更新日历
+            updateCalendar();
+            updateNotificationStatus();
+        }
+
+        // 切换月份
+        function changeMonth(delta) {
+            viewingMonth.setMonth(viewingMonth.getMonth() + delta);
+            updateCalendar();
+        }
+
+        // 更新日历
+        function updateCalendar() {
+            const calendar = document.getElementById('calendar');
+            const monthTitle = document.getElementById('monthTitle');
+            calendar.innerHTML = '';
+            
+            const year = viewingMonth.getFullYear();
+            const month = viewingMonth.getMonth();
+            
+            monthTitle.textContent = `${year}年${month + 1}月`;
+            
+            // 添加星期标题
+            const weekdays = ['日', '一', '二', '三', '四', '五', '六'];
+            weekdays.forEach(day => {
+                const header = document.createElement('div');
+                header.className = 'calendar-header';
+                header.textContent = day;
+                calendar.appendChild(header);
+            });
+            
+            // 获取本月第一天
+            const firstDay = new Date(year, month, 1);
+            const firstDayOfWeek = firstDay.getDay();
+            
+            // 获取本月天数
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            
+            // 获取上月天数
+            const prevMonthDays = new Date(year, month, 0).getDate();
+            
+            const today = new Date();
+            const todayStr = today.toISOString().split('T')[0];
+            
+            // 填充上月日期
+            for (let i = firstDayOfWeek - 1; i >= 0; i--) {
+                const cell = document.createElement('div');
+                cell.className = 'calendar-day other-month';
+                cell.textContent = prevMonthDays - i;
+                calendar.appendChild(cell);
+            }
+            
+            // 填充本月日期
+            for (let day = 1; day <= daysInMonth; day++) {
+                const cell = document.createElement('div');
+                cell.className = 'calendar-day';
+                cell.textContent = day;
+                
+                const date = new Date(year, month, day);
+                const dateStr = date.toISOString().split('T')[0];
+                
+                // 检查是否打卡
+                if (rehabData.checkins.includes(dateStr)) {
+                    cell.classList.add('checked');
+                }
+                
+                // 标记今天
+                if (dateStr === todayStr) {
+                    cell.classList.add('today');
+                }
+                
+                // 点击日期切换打卡状态
+                cell.onclick = function() {
+                    const index = rehabData.checkins.indexOf(dateStr);
+                    if (index > -1) {
+                        rehabData.checkins.splice(index, 1);
+                    } else {
+                        rehabData.checkins.push(dateStr);
+                    }
+                    saveData();
+                    updateUI();
+                };
+                
+                calendar.appendChild(cell);
+            }
+            
+            // 填充下月日期
+            const totalCells = calendar.children.length - 7;
+            const remainingCells = 42 - totalCells;
+            for (let day = 1; day <= remainingCells; day++) {
+                const cell = document.createElement('div');
+                cell.className = 'calendar-day other-month';
+                cell.textContent = day;
+                calendar.appendChild(cell);
+            }
+        }
+
+        // 开启通知
+        async function enableNotifications() {
+            if (!('Notification' in window)) {
+                alert('你的浏览器不支持通知功能');
+                return;
+            }
+
+            const permission = await Notification.requestPermission();
+            
+            if (permission === 'granted') {
+                rehabData.notificationsEnabled = true;
+                rehabData.morningTime = document.getElementById('morningTime').value;
+                rehabData.eveningTime = document.getElementById('eveningTime').value;
+                saveData();
+                updateNotificationStatus();
+                scheduleNotifications();
+                
+                new Notification('🎉 通知已开启', {
+                    body: `会在${rehabData.morningTime}和${rehabData.eveningTime}提醒你训练`,
+                });
+            } else {
+                alert('需要允许通知权限才能提醒你哦');
+            }
+        }
+
+        // 更新通知状态
+        function updateNotificationStatus() {
+            const statusDiv = document.getElementById('notificationStatus');
+            
+            if (rehabData.notificationsEnabled) {
+                statusDiv.classList.add('enabled');
+                statusDiv.querySelector('p').textContent = '✅ 通知已开启';
+                
+                document.getElementById('morningTime').value = rehabData.morningTime;
+                document.getElementById('eveningTime').value = rehabData.eveningTime;
+                
+                document.getElementById('morningTime').onchange = function() {
+                    rehabData.morningTime = this.value;
+                    saveData();
+                };
+                document.getElementById('eveningTime').onchange = function() {
+                    rehabData.eveningTime = this.value;
+                    saveData();
+                };
+            }
+        }
+
+        // 安排通知
+        function scheduleNotifications() {
+            if (!rehabData.notificationsEnabled) return;
+
+            setInterval(() => {
+                const now = new Date();
+                const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+                
+                if (!isTodayChecked()) {
+                    if (currentTime === rehabData.morningTime) {
+                        new Notification('🌅 早上训练时间到了！', {
+                            body: '该做康复训练了，坚持就是胜利！',
+                            requireInteraction: true
+                        });
+                    }
+                    
+                    if (currentTime === rehabData.eveningTime) {
+                        new Notification('🌙 晚上训练时间到了！', {
+                            body: '别忘了今天的康复训练哦！',
+                            requireInteraction: true
+                        });
+                    }
+                }
+            }, 60000);
+        }
+
+        // 重置进度
+        function resetProgress() {
+            if (confirm('确定要重置康复计划吗？这将清除所有打卡记录，从第1天重新开始。')) {
+                rehabData = {
+                    startDate: new Date().toISOString().split('T')[0],
+                    checkins: [],
+                    notificationsEnabled: rehabData.notificationsEnabled,
+                    morningTime: rehabData.morningTime,
+                    eveningTime: rehabData.eveningTime
+                };
+                saveData();
+                viewingMonth = new Date();
+                updateUI();
+                alert('康复计划已重置，从第1天开始！');
+            }
+        }
+
+        // 页面加载时初始化
+        window.onload = function() {
+            updateUI();
+            if (rehabData.notificationsEnabled) {
+                scheduleNotifications();
+            }
+        };
+    </script>
+</body>
+</html>
