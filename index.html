@@ -3,514 +3,632 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="康复助手">
-    <title>膝盖康复助手</title>
+    <title>ËÜùÁõñÂ∫∑Â§çÂä©Êâã</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --primary: #667eea;
+            --primary-dark: #5a6fd6;
+            --secondary: #764ba2;
+            --success: #52c234;
+            --warning: #ffa726;
+            --danger: #dc3545;
+            --bg-light: #f8f9ff;
+            --text-dark: #333;
+            --text-light: #666;
+            --white: #fff;
         }
 
+        .dark-mode {
+            --primary: #8b9eff;
+            --primary-dark: #7a8fff;
+            --secondary: #9c6fc7;
+            --success: #6dd94d;
+            --warning: #ffb74d;
+            --danger: #f44336;
+            --bg-light: #2d2d3a;
+            --text-dark: #e0e0e0;
+            --text-light: #aaa;
+            --white: #1e1e2e;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             min-height: 100vh;
             padding: 20px;
+            transition: background 0.3s;
         }
-
+        .dark-mode body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
         .container {
             max-width: 600px;
             margin: 0 auto;
-            background: white;
+            background: var(--white);
             border-radius: 20px;
-            padding: 30px;
+            padding: 25px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            transition: background 0.3s;
         }
-
-        h1 {
-            color: #667eea;
-            text-align: center;
-            margin-bottom: 10px;
-            font-size: 26px;
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        h1 { color: var(--primary); font-size: 24px; }
+        .theme-toggle {
+            background: var(--bg-light);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
         }
+        .subtitle { text-align: center; color: var(--text-light); margin-bottom: 15px; font-size: 13px; line-height: 1.5; }
 
-        .subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 20px;
-            font-size: 13px;
-            line-height: 1.5;
+        /* ËøõÂ∫¶Êù°Âå∫Âüü */
+        .progress-bar-section { margin-bottom: 15px; }
+        .progress-bar-container {
+            background: var(--bg-light);
+            border-radius: 10px;
+            height: 24px;
+            overflow: hidden;
+            position: relative;
         }
-
-        .progress-section {
-            background: #f8f9ff;
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-        }
-
-        .progress-info {
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            transition: width 0.5s ease;
             display: flex;
-            justify-content: space-around;
-            margin-bottom: 15px;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 8px;
+            min-width: 45px;
         }
-
-        .progress-item {
-            text-align: center;
-        }
-
-        .progress-number {
-            font-size: 32px;
-            font-weight: bold;
-            color: #667eea;
-        }
-
-        .progress-label {
-            font-size: 12px;
-            color: #666;
+        .progress-bar span { color: white; font-size: 11px; font-weight: bold; }
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
             margin-top: 5px;
-        }
-
-        .notification-setup {
-            background: #fff3cd;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .notification-setup button {
-            background: #667eea;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        .notification-setup.enabled {
-            background: #d4edda;
-        }
-
-        .notification-warning {
-            background: #f8d7da;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            text-align: center;
-            color: #721c24;
-            font-size: 13px;
-            line-height: 1.5;
-        }
-
-        .time-settings {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 10px;
-        }
-
-        .time-input {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .time-input label {
             font-size: 12px;
-            color: #666;
-            margin-bottom: 5px;
+            color: var(--text-light);
         }
 
-        .time-input input {
-            padding: 8px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 14px;
-        }
+        .progress-section { background: var(--bg-light); padding: 15px; border-radius: 15px; margin-bottom: 15px; }
+        .progress-info { display: flex; justify-content: space-around; }
+        .progress-item { text-align: center; }
+        .progress-number { font-size: 28px; font-weight: bold; color: var(--primary); }
+        .progress-label { font-size: 11px; color: var(--text-light); margin-top: 3px; }
 
-        .checkin-buttons {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .checkin-btn {
-            flex: 1;
-            padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 15px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .checkin-btn.completed {
-            background: linear-gradient(135deg, #52c234 0%, #61b15a 100%);
-        }
-
-        .undo-btn {
-            flex: 0 0 auto;
-            padding: 20px;
-            background: #ff9800;
-            color: white;
-            border: none;
-            border-radius: 15px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .undo-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-
-        .exercises {
-            background: #f8f9ff;
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-        }
-
-        .exercise-item {
-            background: white;
-            padding: 15px;
+        /* Êú¨Âë®ÁªüËÆ° */
+        .week-stats {
+            background: var(--bg-light);
+            padding: 12px 15px;
             border-radius: 10px;
-            margin-bottom: 12px;
-        }
-
-        .exercise-item.phase1 {
-            border-left: 4px solid #ffa726;
-        }
-
-        .exercise-item.phase2 {
-            border-left: 4px solid #667eea;
-        }
-
-        .exercise-title {
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .phase-tag {
-            font-size: 11px;
-            padding: 3px 8px;
-            border-radius: 10px;
-            font-weight: normal;
-        }
-
-        .phase-tag.phase1 {
-            background: #ffe0b2;
-            color: #e65100;
-        }
-
-        .phase-tag.phase2 {
-            background: #e3f2fd;
-            color: #1565c0;
-        }
-
-        .exercise-details {
-            font-size: 13px;
-            color: #666;
-            line-height: 1.6;
-        }
-
-        .calendar-section {
-            background: #f8f9ff;
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-        }
-
-        .month-selector {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-
-        .month-selector button {
-            background: #667eea;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .month-selector button:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-
-        .month-title {
-            font-weight: bold;
-            color: #667eea;
-            font-size: 16px;
-        }
-
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 5px;
-        }
-
-        .calendar-header {
-            text-align: center;
+        .week-stats-label { font-size: 13px; color: var(--text-light); }
+        .week-stats-dots { display: flex; gap: 6px; }
+        .week-dot {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 10px;
             color: #999;
-            padding: 5px 0;
-            font-weight: bold;
+        }
+        .week-dot.checked { background: var(--success); color: white; }
+        .week-dot.today { border: 2px solid var(--primary); }
+
+        /* Êú™ÊâìÂç°ÊèêÈÜí */
+        .reminder-alert {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 12px 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 14px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
         }
 
+        /* ÈºìÂä±ËØ≠ */
+        .motivation {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white;
+            padding: 12px 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .notification-setup { background: #fff3cd; padding: 12px; border-radius: 10px; margin-bottom: 15px; text-align: center; font-size: 13px; }
+        .notification-setup button { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 8px; font-size: 13px; font-weight: bold; cursor: pointer; margin-top: 8px; }
+        .notification-setup.enabled { background: #d4edda; }
+        .dark-mode .notification-setup { background: #3d3d2e; color: #d4d4aa; }
+        .dark-mode .notification-setup.enabled { background: #2d3d2e; color: #a4d4aa; }
+
+        .time-settings { display: flex; gap: 15px; justify-content: center; margin-top: 8px; flex-wrap: wrap; }
+        .time-input { display: flex; flex-direction: column; align-items: center; }
+        .time-input label { font-size: 11px; color: var(--text-light); margin-bottom: 3px; }
+        .time-input input { padding: 6px; border: 2px solid #ddd; border-radius: 6px; font-size: 13px; }
+
+        .next-reminder { font-size: 12px; color: var(--text-light); margin-top: 8px; }
+
+        .notification-warning { background: #f8d7da; padding: 12px; border-radius: 10px; margin-bottom: 15px; text-align: center; color: #721c24; font-size: 12px; line-height: 1.4; }
+        .dark-mode .notification-warning { background: #3d2d2e; color: #d4a4a4; }
+
+        .checkin-buttons { display: flex; gap: 10px; margin-bottom: 15px; }
+        .checkin-btn { flex: 1; padding: 18px; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: white; border: none; border-radius: 15px; font-size: 15px; font-weight: bold; cursor: pointer; }
+        .checkin-btn.completed { background: linear-gradient(135deg, var(--success) 0%, #61b15a 100%); }
+        .undo-btn { flex: 0 0 auto; padding: 18px; background: var(--warning); color: white; border: none; border-radius: 15px; font-size: 15px; font-weight: bold; cursor: pointer; }
+        .undo-btn:disabled { background: #ccc; cursor: not-allowed; }
+
+        /* ËÆ≠ÁªÉÂä®‰ΩúÂå∫Âüü */
+        .exercises { background: var(--bg-light); padding: 15px; border-radius: 15px; margin-bottom: 15px; }
+        .exercises h2 { color: var(--text-dark); margin-bottom: 12px; font-size: 16px; display: flex; justify-content: space-between; align-items: center; }
+        .collapse-all { font-size: 12px; color: var(--primary); background: none; border: none; cursor: pointer; }
+
+        .exercise-item { background: var(--white); padding: 12px; border-radius: 10px; margin-bottom: 10px; cursor: pointer; }
+        .exercise-item.phase1 { border-left: 4px solid var(--warning); }
+        .exercise-item.phase2 { border-left: 4px solid var(--primary); }
+        .exercise-title { font-weight: bold; color: var(--text-dark); font-size: 14px; display: flex; justify-content: space-between; align-items: center; }
+        .phase-tag { font-size: 10px; padding: 2px 6px; border-radius: 8px; font-weight: normal; }
+        .phase-tag.phase1 { background: #ffe0b2; color: #e65100; }
+        .phase-tag.phase2 { background: #e3f2fd; color: #1565c0; }
+        .dark-mode .phase-tag.phase1 { background: #4d3800; color: #ffb74d; }
+        .dark-mode .phase-tag.phase2 { background: #1a3a5c; color: #8b9eff; }
+        .exercise-details { font-size: 12px; color: var(--text-light); line-height: 1.5; margin-top: 8px; display: none; }
+        .exercise-item.expanded .exercise-details { display: block; }
+        .expand-icon { font-size: 12px; color: var(--text-light); transition: transform 0.2s; }
+        .exercise-item.expanded .expand-icon { transform: rotate(180deg); }
+
+        .note { background: #fff3cd; padding: 10px; border-radius: 8px; font-size: 12px; color: #856404; margin-top: 10px; line-height: 1.4; }
+        .dark-mode .note { background: #3d3d2e; color: #d4d4aa; }
+
+        /* Êó•ÂéÜÂå∫Âüü */
+        .calendar-section { background: var(--bg-light); padding: 15px; border-radius: 15px; margin-bottom: 15px; }
+        .month-selector { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .month-selector button { background: var(--primary); color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px; }
+        .month-selector button:disabled { background: #ccc; cursor: not-allowed; }
+        .month-title { font-weight: bold; color: var(--primary); font-size: 15px; }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+        .calendar-header { text-align: center; font-size: 10px; color: #999; padding: 4px 0; font-weight: bold; }
         .calendar-day {
             aspect-ratio: 1;
-            background: white;
+            background: var(--white);
             border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            position: relative;
+        }
+        .calendar-day.other-month { opacity: 0.3; }
+        .calendar-day.checked { background: var(--primary); color: white; border-color: var(--primary); }
+        .calendar-day.has-note::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            width: 4px;
+            height: 4px;
+            background: var(--warning);
+            border-radius: 50%;
+        }
+        .calendar-day.checked.has-note::after { background: white; }
+        .calendar-day.today { border-color: var(--secondary); border-width: 3px; }
+        .legend { display: flex; gap: 12px; justify-content: center; margin-top: 12px; font-size: 11px; flex-wrap: wrap; }
+        .legend-item { display: flex; align-items: center; gap: 4px; }
+        .legend-box { width: 16px; height: 16px; border-radius: 4px; }
+        .legend-box.phase1 { background: var(--warning); }
+        .legend-box.phase2 { background: var(--primary); }
+        .legend-box.has-note {
+            background: #e0e0e0;
+            position: relative;
+        }
+        .legend-box.has-note::after {
+            content: '';
+            position: absolute;
+            bottom: 1px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            background: var(--warning);
+            border-radius: 50%;
+        }
+
+        /* Â§áÊ≥®Ê®°ÊÄÅÊ°Ü */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-overlay.show { display: flex; }
+        .modal {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 20px;
+            width: 100%;
+            max-width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .modal h3 { color: var(--primary); margin-bottom: 15px; font-size: 16px; }
+        .modal textarea {
+            width: 100%;
+            height: 100px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 14px;
+            resize: none;
+            font-family: inherit;
+        }
+        .modal-buttons { display: flex; gap: 10px; margin-top: 15px; }
+        .modal-buttons button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .modal-buttons .save-btn { background: var(--primary); color: white; }
+        .modal-buttons .cancel-btn { background: #e0e0e0; color: var(--text-dark); }
+        .modal-buttons .delete-btn { background: var(--danger); color: white; flex: 0 0 auto; padding: 12px 16px; }
+
+        /* Êï∞ÊçÆÁÆ°ÁêÜÂå∫Âüü */
+        .data-section {
+            background: var(--bg-light);
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+        }
+        .data-section h3 { color: var(--text-dark); margin-bottom: 12px; font-size: 14px; }
+        .data-buttons { display: flex; gap: 10px; flex-wrap: wrap; }
+        .data-btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
             font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            background: var(--white);
+            color: var(--text-dark);
+            border: 2px solid #ddd;
+        }
+        .data-btn:hover { border-color: var(--primary); }
+
+        .reset-btn { width: 100%; padding: 12px; background: var(--danger); color: white; border: none; border-radius: 10px; font-size: 13px; cursor: pointer; }
+
+        /* ÈáåÁ®ãÁ¢ëÂºπÁ™ó */
+        .milestone-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            z-index: 1001;
+            animation: popIn 0.3s ease;
+        }
+        .milestone-popup.show { display: block; }
+        @keyframes popIn {
+            from { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+            to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+        .milestone-popup h2 { font-size: 24px; margin-bottom: 10px; }
+        .milestone-popup p { font-size: 16px; margin-bottom: 20px; }
+        .milestone-popup button {
+            background: white;
+            color: var(--primary);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 10px;
+            font-size: 16px;
             font-weight: bold;
             cursor: pointer;
         }
 
-        .calendar-day.other-month {
-            opacity: 0.3;
-        }
-
-        .calendar-day.checked {
-            background: #667eea;
-            color: white;
-            border-color: #667eea;
-        }
-
-        .calendar-day.today {
-            border-color: #764ba2;
-            border-width: 3px;
-        }
-
-        .legend {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 15px;
-            font-size: 12px;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .legend-box {
-            width: 20px;
-            height: 20px;
-            border-radius: 4px;
-        }
-
-        .legend-box.phase1 {
-            background: #ffa726;
-        }
-
-        .legend-box.phase2 {
-            background: #667eea;
-        }
-
-        .note {
-            background: #fff3cd;
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 13px;
-            color: #856404;
-            margin-top: 15px;
-            line-height: 1.5;
-        }
-
-        .reset-btn {
-            width: 100%;
-            padding: 12px;
-            background: #dc3545;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 14px;
-            cursor: pointer;
-        }
+        /* Êñá‰ª∂ËæìÂÖ•ÈöêËóè */
+        #importInput { display: none; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🦵 膝盖康复助手</h1>
-        <p class="subtitle">康复训练计划（180天）<br>坚持训练，早日恢复</p>
+        <div class="header">
+            <h1>ËÜùÁõñÂ∫∑Â§çÂä©Êâã</h1>
+            <button class="theme-toggle" onclick="toggleTheme()" title="ÂàáÊç¢Ê∑±Ëâ≤/ÊµÖËâ≤Ê®°Âºè">üåô</button>
+        </div>
+        <p class="subtitle">Â∫∑Â§çËÆ≠ÁªÉËÆ°ÂàíÔºà180Â§©Ôºâ¬∑ ÂùöÊåÅËÆ≠ÁªÉÔºåÊó©Êó•ÊÅ¢Â§ç</p>
+
+        <!-- 180Â§©ËøõÂ∫¶Êù° -->
+        <div class="progress-bar-section">
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progressBar"><span id="progressPercent">0%</span></div>
+            </div>
+            <div class="progress-text">
+                <span>Á¨¨1Â§©</span>
+                <span id="progressDays">Â∑≤ÊâìÂç° 0/180 Â§©</span>
+                <span>Á¨¨180Â§©</span>
+            </div>
+        </div>
 
         <div class="progress-section">
             <div class="progress-info">
                 <div class="progress-item">
                     <div class="progress-number" id="dayNumber">1</div>
-                    <div class="progress-label">第几天</div>
+                    <div class="progress-label">Á¨¨Âá†Â§©</div>
                 </div>
                 <div class="progress-item">
                     <div class="progress-number" id="totalCheckins">0</div>
-                    <div class="progress-label">累计打卡</div>
+                    <div class="progress-label">Á¥ØËÆ°ÊâìÂç°</div>
                 </div>
                 <div class="progress-item">
                     <div class="progress-number" id="streak">0</div>
-                    <div class="progress-label">连续天数</div>
+                    <div class="progress-label">ËøûÁª≠Â§©Êï∞</div>
                 </div>
             </div>
         </div>
 
+        <!-- Êú¨Âë®ÊâìÂç°ÁªüËÆ° -->
+        <div class="week-stats">
+            <span class="week-stats-label">Êú¨Âë®ÊâìÂç°</span>
+            <div class="week-stats-dots" id="weekDots"></div>
+        </div>
+
+        <!-- Êú™ÊâìÂç°ÊèêÈÜíÔºà‰∏ãÂçàÊòæÁ§∫Ôºâ -->
+        <div class="reminder-alert" id="reminderAlert" style="display:none;">
+            ‚è∞ ‰ªäÂ§©ËøòÊ≤°ÊâìÂç°Âì¶ÔºÅÂà´Âøò‰∫ÜÂÅöÂ∫∑Â§çËÆ≠ÁªÉÔºÅ
+        </div>
+
+        <!-- ÈºìÂä±ËØ≠ -->
+        <div class="motivation" id="motivationBox" style="display:none;"></div>
+
         <div class="notification-warning">
-            ⚠️ <strong>iPhone通知说明：</strong><br>
-            网页通知在iPhone上不稳定，建议使用iPhone自带的"提醒事项"App设置每日重复提醒。
+            ‚ö†Ô∏è <strong>iPhoneÈÄöÁü•ËØ¥ÊòéÔºö</strong>ÁΩëÈ°µÈÄöÁü•Âú®iPhone‰∏ä‰∏çÁ®≥ÂÆöÔºåÂª∫ËÆÆ‰ΩøÁî®iPhoneËá™Â∏¶ÁöÑ"ÊèêÈÜí‰∫ãÈ°π"AppËÆæÁΩÆÊØèÊó•ÈáçÂ§çÊèêÈÜí„ÄÇ
         </div>
 
         <div class="notification-setup" id="notificationStatus">
-            <p>🔔 尝试开启浏览器通知（电脑端推荐）</p>
-            <button onclick="enableNotifications()">开启通知</button>
-            <div class="time-settings" style="display:flex;" id="timeSettings">
+            <p>üîî Â∞ùËØïÂºÄÂêØÊµèËßàÂô®ÈÄöÁü•ÔºàÁîµËÑëÁ´ØÊé®ËçêÔºâ</p>
+            <button onclick="enableNotifications()">ÂºÄÂêØÈÄöÁü•</button>
+            <div class="time-settings">
                 <div class="time-input">
-                    <label>早上提醒</label>
+                    <label>Êó©‰∏äÊèêÈÜí</label>
                     <input type="time" id="morningTime" value="08:00">
                 </div>
                 <div class="time-input">
-                    <label>晚上提醒</label>
+                    <label>Êôö‰∏äÊèêÈÜí</label>
                     <input type="time" id="eveningTime" value="19:00">
                 </div>
             </div>
+            <div class="next-reminder" id="nextReminder"></div>
         </div>
 
         <div class="checkin-buttons">
-            <button class="checkin-btn" id="checkinBtn" onclick="dailyCheckin()">
-                今日训练打卡
-            </button>
-            <button class="undo-btn" id="undoBtn" onclick="undoCheckin()" disabled>
-                撤销
-            </button>
+            <button class="checkin-btn" id="checkinBtn" onclick="dailyCheckin()">‰ªäÊó•ËÆ≠ÁªÉÊâìÂç°</button>
+            <button class="undo-btn" id="undoBtn" onclick="undoCheckin()" disabled>Êí§ÈîÄ</button>
         </div>
 
         <div class="exercises">
-            <h3 style="margin-bottom: 15px; color: #667eea;">📋 康复训练计划</h3>
-            
-            <div class="exercise-item phase1">
+            <h2>
+                üìã Â∫∑Â§çËÆ≠ÁªÉËÆ°Âàí
+                <button class="collapse-all" id="collapseBtn" onclick="toggleAllExercises()">ÂÖ®ÈÉ®Â±ïÂºÄ</button>
+            </h2>
+
+            <div class="exercise-item phase1" onclick="toggleExercise(this)">
                 <div class="exercise-title">
-                    <span>1. 单腿站立</span>
-                    <span class="phase-tag phase1">第1-20天</span>
+                    1. ÂçïËÖøÁ´ôÁ´ã
+                    <span>
+                        <span class="phase-tag phase1">Á¨¨1-20Â§©</span>
+                        <span class="expand-icon">‚ñº</span>
+                    </span>
                 </div>
                 <div class="exercise-details">
-                    睁眼30秒/个，闭眼15秒/个，2-3个/组，2组/天<br>
-                    <small style="color: #999;">训练时应完全无痛，目的在于改善肌肉功能</small>
-                </div>
-            </div>
-            
-            <div class="exercise-item phase2">
-                <div class="exercise-title">
-                    <span>2. 靠墙静蹲</span>
-                    <span class="phase-tag phase2">第20天起</span>
-                </div>
-                <div class="exercise-details">
-                    30-120秒/个，2-3个/天或隔天<br>
-                    <small style="color: #999;">训练时应完全无痛，目的在于改善肌肉功能</small>
+                    ÁùÅÁúº30Áßí/‰∏™ÔºåÈó≠Áúº15Áßí/‰∏™Ôºå2-3‰∏™/ÁªÑÔºå2ÁªÑ/Â§©<br>
+                    ËÆ≠ÁªÉÊó∂Â∫îÂÆåÂÖ®Êó†ÁóõÔºåÁõÆÁöÑÂú®‰∫éÊîπÂñÑËÇåËÇâÂäüËÉΩ
                 </div>
             </div>
 
-            <div class="exercise-item phase2">
+            <div class="exercise-item phase2" onclick="toggleExercise(this)">
                 <div class="exercise-title">
-                    <span>3. 双腿下蹲</span>
-                    <span class="phase-tag phase2">第20天起</span>
+                    2. Èù†Â¢ôÈùôËπ≤
+                    <span>
+                        <span class="phase-tag phase2">Á¨¨20Â§©Ëµ∑</span>
+                        <span class="expand-icon">‚ñº</span>
+                    </span>
                 </div>
                 <div class="exercise-details">
-                    10-20个/组，2-3组/天或隔天<br>
-                    <small style="color: #999;">训练时应完全无痛，目的在于改善肌肉功能</small>
+                    30-120Áßí/‰∏™Ôºå2-3‰∏™/Â§©ÊàñÈöîÂ§©<br>
+                    ËÆ≠ÁªÉÊó∂Â∫îÂÆåÂÖ®Êó†ÁóõÔºåÁõÆÁöÑÂú®‰∫éÊîπÂñÑËÇåËÇâÂäüËÉΩ
                 </div>
             </div>
 
-            <div class="exercise-item phase2">
+            <div class="exercise-item phase2" onclick="toggleExercise(this)">
                 <div class="exercise-title">
-                    <span>4. 前向弓步</span>
-                    <span class="phase-tag phase2">第20天起</span>
+                    3. ÂèåËÖø‰∏ãËπ≤
+                    <span>
+                        <span class="phase-tag phase2">Á¨¨20Â§©Ëµ∑</span>
+                        <span class="expand-icon">‚ñº</span>
+                    </span>
                 </div>
                 <div class="exercise-details">
-                    10-20个/组，2-3组/天或隔天<br>
-                    <small style="color: #999;">训练时应完全无痛，目的在于改善肌肉功能</small>
+                    10-20‰∏™/ÁªÑÔºå2-3ÁªÑ/Â§©ÊàñÈöîÂ§©<br>
+                    ËÆ≠ÁªÉÊó∂Â∫îÂÆåÂÖ®Êó†ÁóõÔºåÁõÆÁöÑÂú®‰∫éÊîπÂñÑËÇåËÇâÂäüËÉΩ
                 </div>
             </div>
 
-            <div class="exercise-item phase2">
+            <div class="exercise-item phase2" onclick="toggleExercise(this)">
                 <div class="exercise-title">
-                    <span>5. 后向弓步</span>
-                    <span class="phase-tag phase2">第20天起</span>
+                    4. ÂâçÂêëÂºìÊ≠•
+                    <span>
+                        <span class="phase-tag phase2">Á¨¨20Â§©Ëµ∑</span>
+                        <span class="expand-icon">‚ñº</span>
+                    </span>
                 </div>
                 <div class="exercise-details">
-                    10-20个/组，2-3组/天或隔天<br>
-                    <small style="color: #999;">训练时应完全无痛，目的在于改善肌肉功能</small>
+                    10-20‰∏™/ÁªÑÔºå2-3ÁªÑ/Â§©ÊàñÈöîÂ§©<br>
+                    ËÆ≠ÁªÉÊó∂Â∫îÂÆåÂÖ®Êó†ÁóõÔºåÁõÆÁöÑÂú®‰∫éÊîπÂñÑËÇåËÇâÂäüËÉΩ
                 </div>
             </div>
 
-            <div class="legend">
-                <div class="legend-item">
-                    <div class="legend-box phase1"></div>
-                    <span>第1-20天</span>
+            <div class="exercise-item phase2" onclick="toggleExercise(this)">
+                <div class="exercise-title">
+                    5. ÂêéÂêëÂºìÊ≠•
+                    <span>
+                        <span class="phase-tag phase2">Á¨¨20Â§©Ëµ∑</span>
+                        <span class="expand-icon">‚ñº</span>
+                    </span>
                 </div>
-                <div class="legend-item">
-                    <div class="legend-box phase2"></div>
-                    <span>第20天开始</span>
+                <div class="exercise-details">
+                    10-20‰∏™/ÁªÑÔºå2-3ÁªÑ/Â§©ÊàñÈöîÂ§©<br>
+                    ËÆ≠ÁªÉÊó∂Â∫îÂÆåÂÖ®Êó†ÁóõÔºåÁõÆÁöÑÂú®‰∫éÊîπÂñÑËÇåËÇâÂäüËÉΩ
                 </div>
             </div>
 
             <div class="note">
-                ⚠️ <strong>重要提示：</strong>需要进行支具调节，无痛且高质量的肌肉功能训练可以保护并促进组织修复。
+                ‚ö†Ô∏è <strong>ÈáçË¶ÅÊèêÁ§∫Ôºö</strong>ÈúÄË¶ÅËøõË°åÊîØÂÖ∑Ë∞ÉËäÇÔºåÊó†Áóõ‰∏îÈ´òË¥®ÈáèÁöÑËÇåËÇâÂäüËÉΩËÆ≠ÁªÉÂèØ‰ª•‰øùÊä§Âπ∂‰øÉËøõÁªÑÁªá‰øÆÂ§ç„ÄÇ
             </div>
         </div>
 
         <div class="calendar-section">
             <div class="month-selector">
-                <button onclick="changeMonth(-1)">◀ 上月</button>
-                <div class="month-title" id="monthTitle">2026年2月</div>
-                <button onclick="changeMonth(1)">下月 ▶</button>
+                <button onclick="changeMonth(-1)">‚óÄ ‰∏äÊúà</button>
+                <div class="month-title" id="monthTitle">2026Âπ¥2Êúà</div>
+                <button onclick="changeMonth(1)">‰∏ãÊúà ‚ñ∂</button>
             </div>
             <div class="calendar-grid" id="calendar"></div>
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-box phase1"></div>
+                    <span>Á¨¨1-20Â§©</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-box phase2"></div>
+                    <span>Á¨¨20Â§©Ëµ∑</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-box has-note"></div>
+                    <span>ÊúâÂ§áÊ≥®</span>
+                </div>
+            </div>
         </div>
 
-        <button class="reset-btn" onclick="resetProgress()">🔄 重置康复计划</button>
+        <!-- Êï∞ÊçÆÁÆ°ÁêÜ -->
+        <div class="data-section">
+            <h3>üì¶ Êï∞ÊçÆÁÆ°ÁêÜ</h3>
+            <div class="data-buttons">
+                <button class="data-btn" onclick="exportData()">üì§ ÂØºÂá∫Êï∞ÊçÆ</button>
+                <button class="data-btn" onclick="document.getElementById('importInput').click()">üì• ÂØºÂÖ•Êï∞ÊçÆ</button>
+            </div>
+            <input type="file" id="importInput" accept=".json" onchange="importData(event)">
+        </div>
+
+        <button class="reset-btn" onclick="resetProgress()">üîÑ ÈáçÁΩÆÂ∫∑Â§çËÆ°Âàí</button>
+    </div>
+
+    <!-- Â§áÊ≥®Ê®°ÊÄÅÊ°Ü -->
+    <div class="modal-overlay" id="noteModal">
+        <div class="modal">
+            <h3 id="noteModalTitle">Ê∑ªÂä†ËÆ≠ÁªÉÂ§áÊ≥®</h3>
+            <textarea id="noteText" placeholder="ËÆ∞ÂΩï‰ªäÂ§©ÁöÑËÆ≠ÁªÉÊÑüÂèóÔºåÊØîÂ¶ÇÔºö&#10;‚Ä¢ ‰ªäÂ§©ËÜùÁõñÊÑüËßâ‰∏çÈîô&#10;‚Ä¢ ÂÆåÊàê‰∫ÜÊâÄÊúâÂä®‰Ωú&#10;‚Ä¢ ÊúâËΩªÂæÆÈÖ∏Áóõ"></textarea>
+            <div class="modal-buttons">
+                <button class="cancel-btn" onclick="closeNoteModal()">ÂèñÊ∂à</button>
+                <button class="delete-btn" id="deleteNoteBtn" onclick="deleteNote()" style="display:none;">Âà†Èô§</button>
+                <button class="save-btn" onclick="saveNote()">‰øùÂ≠ò</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ÈáåÁ®ãÁ¢ëÂºπÁ™ó -->
+    <div class="milestone-popup" id="milestonePopup">
+        <h2 id="milestoneTitle">üéâ</h2>
+        <p id="milestoneText"></p>
+        <button onclick="closeMilestone()">Â§™Ê£í‰∫ÜÔºÅ</button>
     </div>
 
     <script>
-        // 初始化数据
+        // ÈºìÂä±ËØ≠ÂàóË°®
+        const motivations = [
+            "üí™ ÊØè‰∏ÄÊ¨°ËÆ≠ÁªÉÈÉΩÊòØÂêëÂ∫∑Â§çËøàËøõÁöÑ‰∏ÄÊ≠•ÔºÅ",
+            "üåü ÂùöÊåÅÂ∞±ÊòØËÉúÂà©Ôºå‰Ω†ÂÅöÂæóÂæàÊ£íÔºÅ",
+            "üéØ ‰∏ìÊ≥®ÂΩì‰∏ãÔºå‰∏ÄÊ≠•‰∏Ä‰∏™ËÑöÂç∞ÔºÅ",
+            "üåà Â∫∑Â§çË∑Ø‰∏äÔºå‰Ω†‰ªé‰∏çÂ≠§ÂçïÔºÅ",
+            "‚≠ê ‰ªäÂ§©ÁöÑÂä™ÂäõÔºåÊòéÂ§©ÁöÑÂÅ•Â∫∑ÔºÅ",
+            "üèÜ ËÉΩÂùöÊåÅÂà∞Áé∞Âú®ÔºåÂ∑≤ÁªèÂæà‰∫Ü‰∏çËµ∑ÔºÅ",
+            "üíñ ÁÖßÈ°æÂ•ΩËá™Â∑±ÔºåÊÖ¢ÊÖ¢Êù•‰∏çÁùÄÊÄ•ÔºÅ",
+            "üåª Èò≥ÂÖâÊÄªÂú®È£éÈõ®ÂêéÔºåÂä†Ê≤πÔºÅ",
+            "‚ú® Áõ∏‰ø°Ëá™Â∑±Ôºå‰Ω†‰∏ÄÂÆöÂèØ‰ª•ÔºÅ",
+            "üéä ÊØèÂ§©ËøõÊ≠•‰∏ÄÁÇπÁÇπÔºåÂ∞±ÊòØÊúÄÂ•ΩÁöÑÔºÅ"
+        ];
+
+        // ÈáåÁ®ãÁ¢ëÈÖçÁΩÆ
+        const milestones = [
+            { days: 7, title: "üéâ ‰∏ÄÂë®ËææÊàêÔºÅ", text: "ËøûÁª≠ÂùöÊåÅ7Â§©Ôºå‰Ω†Â§™Ê£í‰∫ÜÔºÅ" },
+            { days: 14, title: "üåü ‰∏§Âë®ÂùöÊåÅÔºÅ", text: "14Â§©ÁöÑÂä™ÂäõÔºåÁúãÂæóËßÅÁöÑËøõÊ≠•ÔºÅ" },
+            { days: 20, title: "üéä Á¨¨20Â§©ÈáåÁ®ãÁ¢ëÔºÅ", text: "ÊÅ≠ÂñúÔºÅ‰ªäÂ§©ÂºÄÂßãÂèØ‰ª•ÂÅöÂêéÈù¢4‰∏™Âä®‰Ωú‰∫ÜÔºÅ" },
+            { days: 30, title: "üèÜ ‰∏Ä‰∏™ÊúàÊàêÂ∞±ÔºÅ", text: "30Â§©ÂùöÊåÅÔºå‰Ω†ÁúüÁöÑÂæàÊ£íÔºÅ" },
+            { days: 60, title: "üí™ ‰∏§‰∏™ÊúàÂããÁ´†ÔºÅ", text: "60Â§©ÁöÑÊØÖÂäõÔºåÂÄºÂæóÈ™ÑÂÇ≤ÔºÅ" },
+            { days: 90, title: "‚≠ê 90Â§©Â§ßÂ∏àÔºÅ", text: "‰∏â‰∏™ÊúàÂùöÊåÅÔºåÂ∫∑Â§ç‰πãË∑ØÂ∑≤ËøáÂçäÔºÅ" },
+            { days: 100, title: "üíØ ÁôæÊó•ÊàêÂ∞±ÔºÅ", text: "100Â§©ÔºÅËøô‰ªΩÂùöÊåÅÂ§™ÁèçË¥µÔºÅ" },
+            { days: 150, title: "üåà 150Â§©‰º†Â•áÔºÅ", text: "150Â§©ÁöÑÂùöÊåÅÔºå‰Ω†ÊòØÊúÄÊ£íÁöÑÔºÅ" },
+            { days: 180, title: "üéä Â∫∑Â§çËÆ°ÂàíÂÆåÊàêÔºÅ", text: "180Â§©ÔºÅÊÅ≠Âñú‰Ω†ÂÆåÊàê‰∫ÜÊï¥‰∏™Â∫∑Â§çËÆ°ÂàíÔºÅ" }
+        ];
+
+        // ÂàùÂßãÂåñÊï∞ÊçÆ
         let rehabData = JSON.parse(localStorage.getItem('rehabData')) || {
             startDate: new Date().toISOString().split('T')[0],
             checkins: [],
+            notes: {}, // Êñ∞Â¢ûÔºöÊØèÊó•Â§áÊ≥® { "2026-02-01": "‰ªäÂ§©ÊÑüËßâ‰∏çÈîô" }
             notificationsEnabled: false,
             morningTime: '08:00',
-            eveningTime: '19:00'
+            eveningTime: '19:00',
+            shownMilestones: [], // Â∑≤ÊòæÁ§∫ÁöÑÈáåÁ®ãÁ¢ë
+            darkMode: false
         };
 
-        // 当前查看的月份
-        let viewingMonth = new Date();
+        // ËøÅÁßªÊóßÊï∞ÊçÆÔºàÂ¶ÇÊûúÊ≤°ÊúânotesÂ≠óÊÆµÔºâ
+        if (!rehabData.notes) rehabData.notes = {};
+        if (!rehabData.shownMilestones) rehabData.shownMilestones = [];
+        if (rehabData.darkMode === undefined) rehabData.darkMode = false;
 
-        // 保存数据
+        let viewingMonth = new Date();
+        let currentNoteDate = null;
+
+        // ‰øùÂ≠òÊï∞ÊçÆ
         function saveData() {
             localStorage.setItem('rehabData', JSON.stringify(rehabData));
         }
 
-        // 计算从开始第几天
+        // ËÆ°ÁÆó‰ªéÂºÄÂßãÁ¨¨Âá†Â§©
         function getCurrentDay() {
             const start = new Date(rehabData.startDate);
             const today = new Date();
@@ -518,181 +636,356 @@
             today.setHours(0, 0, 0, 0);
             const diffTime = today - start;
             const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-            return diffDays + 1;
+            return Math.max(1, diffDays + 1);
         }
 
-        // 获取今天日期字符串
+        // Ëé∑Âèñ‰ªäÂ§©Êó•ÊúüÂ≠óÁ¨¶‰∏≤
         function getTodayString() {
             return new Date().toISOString().split('T')[0];
         }
 
-        // 今日打卡
+        // ‰ªäÊó•ÊâìÂç°
         function dailyCheckin() {
             const today = getTodayString();
             if (!rehabData.checkins.includes(today)) {
                 rehabData.checkins.push(today);
                 saveData();
                 updateUI();
-                alert('✅ 打卡成功！坚持就是胜利！');
+
+                // ÊâìÂç°ÂêéÂºπÂá∫Â§áÊ≥®Ê°Ü
+                openNoteModal(today, true);
+
+                // Ê£ÄÊü•ÈáåÁ®ãÁ¢ë
+                checkMilestones();
             } else {
-                alert('今天已经打卡过了哦！');
+                alert('‰ªäÂ§©Â∑≤ÁªèÊâìÂç°Ëøá‰∫ÜÂì¶ÔºÅ');
             }
         }
 
-        // 撤销今日打卡
+        // Êí§ÈîÄ‰ªäÊó•ÊâìÂç°
         function undoCheckin() {
             const today = getTodayString();
             const index = rehabData.checkins.indexOf(today);
             if (index > -1) {
-                if (confirm('确定要撤销今天的打卡吗？')) {
+                if (confirm('Á°ÆÂÆöË¶ÅÊí§ÈîÄ‰ªäÂ§©ÁöÑÊâìÂç°ÂêóÔºü')) {
                     rehabData.checkins.splice(index, 1);
+                    delete rehabData.notes[today];
                     saveData();
                     updateUI();
                 }
             }
         }
 
-        // 检查今天是否打卡
+        // Ê£ÄÊü•‰ªäÂ§©ÊòØÂê¶ÊâìÂç°
         function isTodayChecked() {
             return rehabData.checkins.includes(getTodayString());
         }
 
-        // 计算连续天数
+        // ËÆ°ÁÆóËøûÁª≠Â§©Êï∞
         function calculateStreak() {
             if (rehabData.checkins.length === 0) return 0;
-            
             const sortedCheckins = [...rehabData.checkins].sort().reverse();
             let streak = 0;
             let currentDate = new Date();
             currentDate.setHours(0, 0, 0, 0);
-            
-            for (let checkin of sortedCheckins) {
-                const checkinDate = new Date(checkin);
-                checkinDate.setHours(0, 0, 0, 0);
-                
+
+            for (let i = 0; i <= sortedCheckins.length; i++) {
                 const expectedDate = new Date(currentDate);
-                expectedDate.setDate(expectedDate.getDate() - streak);
-                
-                const diff = Math.floor((checkinDate - expectedDate) / (1000 * 60 * 60 * 24));
-                
-                if (diff === 0) {
+                expectedDate.setDate(expectedDate.getDate() - i);
+                const expectedStr = expectedDate.toISOString().split('T')[0];
+
+                if (sortedCheckins.includes(expectedStr)) {
                     streak++;
-                } else if (diff < 0) {
+                } else if (i > 0) {
                     break;
                 }
             }
-            
             return streak;
         }
 
-        // 更新UI
+        // Ê£ÄÊü•Âπ∂ÊòæÁ§∫ÈáåÁ®ãÁ¢ë
+        function checkMilestones() {
+            const currentDay = getCurrentDay();
+            const streak = calculateStreak();
+
+            // Ê£ÄÊü•Á¨¨20Â§©ÁâπÊÆäÊèêÈÜí
+            if (currentDay === 20 && !rehabData.shownMilestones.includes('day20')) {
+                rehabData.shownMilestones.push('day20');
+                saveData();
+                showMilestone("üéä ËøõÂÖ•Á¨¨‰∫åÈò∂ÊÆµÔºÅ", "ÊÅ≠ÂñúÔºÅ‰ªé‰ªäÂ§©ÂºÄÂßãÂèØ‰ª•ÂÅöÂêéÈù¢4‰∏™Âä®‰Ωú‰∫ÜÔºöÈù†Â¢ôÈùôËπ≤„ÄÅÂèåËÖø‰∏ãËπ≤„ÄÅÂâçÂêëÂºìÊ≠•„ÄÅÂêéÂêëÂºìÊ≠•ÔºÅ");
+                return;
+            }
+
+            // Ê£ÄÊü•ËøûÁª≠ÊâìÂç°ÈáåÁ®ãÁ¢ë
+            for (let milestone of milestones) {
+                if (streak === milestone.days && !rehabData.shownMilestones.includes(`streak${milestone.days}`)) {
+                    rehabData.shownMilestones.push(`streak${milestone.days}`);
+                    saveData();
+                    showMilestone(milestone.title, milestone.text);
+                    return;
+                }
+            }
+        }
+
+        // ÊòæÁ§∫ÈáåÁ®ãÁ¢ëÂºπÁ™ó
+        function showMilestone(title, text) {
+            document.getElementById('milestoneTitle').textContent = title;
+            document.getElementById('milestoneText').textContent = text;
+            document.getElementById('milestonePopup').classList.add('show');
+        }
+
+        // ÂÖ≥Èó≠ÈáåÁ®ãÁ¢ëÂºπÁ™ó
+        function closeMilestone() {
+            document.getElementById('milestonePopup').classList.remove('show');
+        }
+
+        // ÊâìÂºÄÂ§áÊ≥®Ê®°ÊÄÅÊ°Ü
+        function openNoteModal(date, isNew = false) {
+            currentNoteDate = date;
+            const existingNote = rehabData.notes[date] || '';
+            document.getElementById('noteText').value = existingNote;
+            document.getElementById('noteModalTitle').textContent = isNew ? 'Ê∑ªÂä†ËÆ≠ÁªÉÂ§áÊ≥®ÔºàÂèØÈÄâÔºâ' : `${date} ÁöÑËÆ≠ÁªÉÂ§áÊ≥®`;
+            document.getElementById('deleteNoteBtn').style.display = existingNote ? 'block' : 'none';
+            document.getElementById('noteModal').classList.add('show');
+        }
+
+        // ÂÖ≥Èó≠Â§áÊ≥®Ê®°ÊÄÅÊ°Ü
+        function closeNoteModal() {
+            document.getElementById('noteModal').classList.remove('show');
+            currentNoteDate = null;
+        }
+
+        // ‰øùÂ≠òÂ§áÊ≥®
+        function saveNote() {
+            const note = document.getElementById('noteText').value.trim();
+            if (note) {
+                rehabData.notes[currentNoteDate] = note;
+            } else {
+                delete rehabData.notes[currentNoteDate];
+            }
+            saveData();
+            updateUI();
+            closeNoteModal();
+        }
+
+        // Âà†Èô§Â§áÊ≥®
+        function deleteNote() {
+            if (confirm('Á°ÆÂÆöË¶ÅÂà†Èô§ËøôÊù°Â§áÊ≥®ÂêóÔºü')) {
+                delete rehabData.notes[currentNoteDate];
+                saveData();
+                updateUI();
+                closeNoteModal();
+            }
+        }
+
+        // Êõ¥Êñ∞Êú¨Âë®ÊâìÂç°ÊòæÁ§∫
+        function updateWeekStats() {
+            const weekDots = document.getElementById('weekDots');
+            weekDots.innerHTML = '';
+
+            const today = new Date();
+            const dayOfWeek = today.getDay(); // 0=Âë®Êó•
+            const weekDays = ['Êó•', '‰∏Ä', '‰∫å', '‰∏â', 'Âõõ', '‰∫î', 'ÂÖ≠'];
+
+            for (let i = 0; i < 7; i++) {
+                const date = new Date(today);
+                date.setDate(today.getDate() - dayOfWeek + i);
+                const dateStr = date.toISOString().split('T')[0];
+
+                const dot = document.createElement('div');
+                dot.className = 'week-dot';
+                dot.textContent = weekDays[i];
+
+                if (rehabData.checkins.includes(dateStr)) {
+                    dot.classList.add('checked');
+                    dot.textContent = '‚úì';
+                }
+                if (dateStr === getTodayString()) {
+                    dot.classList.add('today');
+                }
+
+                weekDots.appendChild(dot);
+            }
+        }
+
+        // Êõ¥Êñ∞ËøõÂ∫¶Êù°
+        function updateProgressBar() {
+            const total = rehabData.checkins.length;
+            const percent = Math.min(100, Math.round((total / 180) * 100));
+
+            document.getElementById('progressBar').style.width = percent + '%';
+            document.getElementById('progressPercent').textContent = percent + '%';
+            document.getElementById('progressDays').textContent = `Â∑≤ÊâìÂç° ${total}/180 Â§©`;
+        }
+
+        // Êõ¥Êñ∞Êú™ÊâìÂç°ÊèêÈÜí
+        function updateReminderAlert() {
+            const hour = new Date().getHours();
+            const reminderAlert = document.getElementById('reminderAlert');
+
+            // ‰∏ãÂçà2ÁÇπÂêéÂ¶ÇÊûúÊ≤°ÊâìÂç°ÔºåÊòæÁ§∫ÊèêÈÜí
+            if (hour >= 14 && !isTodayChecked()) {
+                reminderAlert.style.display = 'block';
+            } else {
+                reminderAlert.style.display = 'none';
+            }
+        }
+
+        // Êõ¥Êñ∞ÈºìÂä±ËØ≠
+        function updateMotivation() {
+            const motivationBox = document.getElementById('motivationBox');
+
+            if (isTodayChecked()) {
+                const randomMotivation = motivations[Math.floor(Math.random() * motivations.length)];
+                motivationBox.textContent = randomMotivation;
+                motivationBox.style.display = 'block';
+            } else {
+                motivationBox.style.display = 'none';
+            }
+        }
+
+        // ËÆ°ÁÆóË∑ùÁ¶ª‰∏ãÊ¨°ÊèêÈÜíÁöÑÊó∂Èó¥
+        function updateNextReminder() {
+            if (!rehabData.notificationsEnabled) {
+                document.getElementById('nextReminder').textContent = '';
+                return;
+            }
+
+            const now = new Date();
+            const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+            const [mH, mM] = rehabData.morningTime.split(':').map(Number);
+            const [eH, eM] = rehabData.eveningTime.split(':').map(Number);
+            const morningMinutes = mH * 60 + mM;
+            const eveningMinutes = eH * 60 + eM;
+
+            let nextTime, nextLabel;
+
+            if (currentMinutes < morningMinutes) {
+                nextTime = morningMinutes - currentMinutes;
+                nextLabel = 'Êó©‰∏ä';
+            } else if (currentMinutes < eveningMinutes) {
+                nextTime = eveningMinutes - currentMinutes;
+                nextLabel = 'Êôö‰∏ä';
+            } else {
+                nextTime = (24 * 60 - currentMinutes) + morningMinutes;
+                nextLabel = 'ÊòéÂ§©Êó©‰∏ä';
+            }
+
+            const hours = Math.floor(nextTime / 60);
+            const minutes = nextTime % 60;
+
+            let text = `‚è∞ Ë∑ùÁ¶ª${nextLabel}ÊèêÈÜíËøòÊúâ `;
+            if (hours > 0) text += `${hours}Â∞èÊó∂`;
+            if (minutes > 0) text += `${minutes}ÂàÜÈíü`;
+
+            document.getElementById('nextReminder').textContent = text;
+        }
+
+        // Êõ¥Êñ∞UI
         function updateUI() {
             const dayNum = getCurrentDay();
             document.getElementById('dayNumber').textContent = dayNum;
             document.getElementById('totalCheckins').textContent = rehabData.checkins.length;
             document.getElementById('streak').textContent = calculateStreak();
 
-            // 更新打卡按钮
             const checkinBtn = document.getElementById('checkinBtn');
             const undoBtn = document.getElementById('undoBtn');
-            
             if (isTodayChecked()) {
                 checkinBtn.classList.add('completed');
-                checkinBtn.textContent = '今日已打卡 ✓';
+                checkinBtn.textContent = '‰ªäÊó•Â∑≤ÊâìÂç° ‚úì';
                 undoBtn.disabled = false;
             } else {
                 checkinBtn.classList.remove('completed');
-                checkinBtn.textContent = '今日训练打卡';
+                checkinBtn.textContent = '‰ªäÊó•ËÆ≠ÁªÉÊâìÂç°';
                 undoBtn.disabled = true;
             }
 
-            // 更新日历
+            updateProgressBar();
+            updateWeekStats();
+            updateReminderAlert();
+            updateMotivation();
+            updateNextReminder();
             updateCalendar();
             updateNotificationStatus();
+            updateTheme();
         }
 
-        // 切换月份
+        // ÂàáÊç¢Êúà‰ªΩ
         function changeMonth(delta) {
             viewingMonth.setMonth(viewingMonth.getMonth() + delta);
             updateCalendar();
         }
 
-        // 更新日历
+        // Êõ¥Êñ∞Êó•ÂéÜ
         function updateCalendar() {
             const calendar = document.getElementById('calendar');
             const monthTitle = document.getElementById('monthTitle');
             calendar.innerHTML = '';
-            
+
             const year = viewingMonth.getFullYear();
             const month = viewingMonth.getMonth();
-            
-            monthTitle.textContent = `${year}年${month + 1}月`;
-            
-            // 添加星期标题
-            const weekdays = ['日', '一', '二', '三', '四', '五', '六'];
+            monthTitle.textContent = `${year}Âπ¥${month + 1}Êúà`;
+
+            const weekdays = ['Êó•', '‰∏Ä', '‰∫å', '‰∏â', 'Âõõ', '‰∫î', 'ÂÖ≠'];
             weekdays.forEach(day => {
                 const header = document.createElement('div');
                 header.className = 'calendar-header';
                 header.textContent = day;
                 calendar.appendChild(header);
             });
-            
-            // 获取本月第一天
+
             const firstDay = new Date(year, month, 1);
             const firstDayOfWeek = firstDay.getDay();
-            
-            // 获取本月天数
             const daysInMonth = new Date(year, month + 1, 0).getDate();
-            
-            // 获取上月天数
             const prevMonthDays = new Date(year, month, 0).getDate();
-            
+
             const today = new Date();
             const todayStr = today.toISOString().split('T')[0];
-            
-            // 填充上月日期
+
             for (let i = firstDayOfWeek - 1; i >= 0; i--) {
                 const cell = document.createElement('div');
                 cell.className = 'calendar-day other-month';
                 cell.textContent = prevMonthDays - i;
                 calendar.appendChild(cell);
             }
-            
-            // 填充本月日期
+
             for (let day = 1; day <= daysInMonth; day++) {
                 const cell = document.createElement('div');
                 cell.className = 'calendar-day';
                 cell.textContent = day;
-                
                 const date = new Date(year, month, day);
                 const dateStr = date.toISOString().split('T')[0];
-                
-                // 检查是否打卡
+
                 if (rehabData.checkins.includes(dateStr)) {
                     cell.classList.add('checked');
                 }
-                
-                // 标记今天
+
+                if (rehabData.notes[dateStr]) {
+                    cell.classList.add('has-note');
+                }
+
                 if (dateStr === todayStr) {
                     cell.classList.add('today');
                 }
-                
-                // 点击日期切换打卡状态
-                cell.onclick = function() {
-                    const index = rehabData.checkins.indexOf(dateStr);
-                    if (index > -1) {
-                        rehabData.checkins.splice(index, 1);
+
+                cell.onclick = function(e) {
+                    e.stopPropagation();
+
+                    // Â¶ÇÊûúÂ∑≤ÊâìÂç°ÔºåÁÇπÂáªÊü•Áúã/ÁºñËæëÂ§áÊ≥®
+                    if (rehabData.checkins.includes(dateStr)) {
+                        openNoteModal(dateStr, false);
                     } else {
+                        // Êú™ÊâìÂç°ÁöÑÊó•ÊúüÔºåÂàáÊç¢ÊâìÂç°Áä∂ÊÄÅ
                         rehabData.checkins.push(dateStr);
+                        saveData();
+                        updateUI();
                     }
-                    saveData();
-                    updateUI();
                 };
-                
+
                 calendar.appendChild(cell);
             }
-            
-            // 填充下月日期
+
             const totalCells = calendar.children.length - 7;
             const remainingCells = 42 - totalCells;
             for (let day = 1; day <= remainingCells; day++) {
@@ -703,15 +996,14 @@
             }
         }
 
-        // 开启通知
+        // ÂºÄÂêØÈÄöÁü•
         async function enableNotifications() {
             if (!('Notification' in window)) {
-                alert('你的浏览器不支持通知功能');
+                alert('‰Ω†ÁöÑÊµèËßàÂô®‰∏çÊîØÊåÅÈÄöÁü•ÂäüËÉΩ');
                 return;
             }
 
             const permission = await Notification.requestPermission();
-            
             if (permission === 'granted') {
                 rehabData.notificationsEnabled = true;
                 rehabData.morningTime = document.getElementById('morningTime').value;
@@ -719,86 +1011,202 @@
                 saveData();
                 updateNotificationStatus();
                 scheduleNotifications();
-                
-                new Notification('🎉 通知已开启', {
-                    body: `会在${rehabData.morningTime}和${rehabData.eveningTime}提醒你训练`,
+                new Notification('üéâ ÈÄöÁü•Â∑≤ÂºÄÂêØ', {
+                    body: `‰ºöÂú®${rehabData.morningTime}Âíå${rehabData.eveningTime}ÊèêÈÜí‰Ω†ËÆ≠ÁªÉ`,
                 });
             } else {
-                alert('需要允许通知权限才能提醒你哦');
+                alert('ÈúÄË¶ÅÂÖÅËÆ∏ÈÄöÁü•ÊùÉÈôêÊâçËÉΩÊèêÈÜí‰Ω†Âì¶');
             }
         }
 
-        // 更新通知状态
+        // Êõ¥Êñ∞ÈÄöÁü•Áä∂ÊÄÅ
         function updateNotificationStatus() {
             const statusDiv = document.getElementById('notificationStatus');
-            
             if (rehabData.notificationsEnabled) {
                 statusDiv.classList.add('enabled');
-                statusDiv.querySelector('p').textContent = '✅ 通知已开启';
-                
+                statusDiv.querySelector('p').textContent = '‚úÖ ÈÄöÁü•Â∑≤ÂºÄÂêØ';
                 document.getElementById('morningTime').value = rehabData.morningTime;
                 document.getElementById('eveningTime').value = rehabData.eveningTime;
-                
                 document.getElementById('morningTime').onchange = function() {
                     rehabData.morningTime = this.value;
                     saveData();
+                    updateNextReminder();
                 };
                 document.getElementById('eveningTime').onchange = function() {
                     rehabData.eveningTime = this.value;
                     saveData();
+                    updateNextReminder();
                 };
             }
         }
 
-        // 安排通知
+        // ÂÆâÊéíÈÄöÁü•
         function scheduleNotifications() {
             if (!rehabData.notificationsEnabled) return;
-
             setInterval(() => {
                 const now = new Date();
                 const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-                
                 if (!isTodayChecked()) {
                     if (currentTime === rehabData.morningTime) {
-                        new Notification('🌅 早上训练时间到了！', {
-                            body: '该做康复训练了，坚持就是胜利！',
+                        new Notification('üåÖ Êó©‰∏äËÆ≠ÁªÉÊó∂Èó¥Âà∞‰∫ÜÔºÅ', {
+                            body: 'ËØ•ÂÅöÂ∫∑Â§çËÆ≠ÁªÉ‰∫ÜÔºåÂùöÊåÅÂ∞±ÊòØËÉúÂà©ÔºÅ',
                             requireInteraction: true
                         });
                     }
-                    
                     if (currentTime === rehabData.eveningTime) {
-                        new Notification('🌙 晚上训练时间到了！', {
-                            body: '别忘了今天的康复训练哦！',
+                        new Notification('üåô Êôö‰∏äËÆ≠ÁªÉÊó∂Èó¥Âà∞‰∫ÜÔºÅ', {
+                            body: 'Âà´Âøò‰∫Ü‰ªäÂ§©ÁöÑÂ∫∑Â§çËÆ≠ÁªÉÂì¶ÔºÅ',
                             requireInteraction: true
                         });
                     }
                 }
+                updateNextReminder();
             }, 60000);
         }
 
-        // 重置进度
+        // ÂØºÂá∫Êï∞ÊçÆ
+        function exportData() {
+            const dataStr = JSON.stringify(rehabData, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `ËÜùÁõñÂ∫∑Â§çÊï∞ÊçÆ_${getTodayString()}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            alert('‚úÖ Êï∞ÊçÆÂ∑≤ÂØºÂá∫ÔºÅËØ∑Â¶•ÂñÑ‰øùÂ≠òÊñá‰ª∂ÔºåÊç¢ËÆæÂ§áÊó∂ÂèØ‰ª•ÂØºÂÖ•ÊÅ¢Â§ç„ÄÇ');
+        }
+
+        // ÂØºÂÖ•Êï∞ÊçÆ
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+
+                    // È™åËØÅÊï∞ÊçÆÊ†ºÂºè
+                    if (!importedData.startDate || !Array.isArray(importedData.checkins)) {
+                        throw new Error('Êï∞ÊçÆÊ†ºÂºè‰∏çÊ≠£Á°Æ');
+                    }
+
+                    if (confirm(`Á°ÆÂÆöË¶ÅÂØºÂÖ•Êï∞ÊçÆÂêóÔºü\n\nÂØºÂÖ•ÁöÑÊï∞ÊçÆÂåÖÂê´Ôºö\n‚Ä¢ ÂºÄÂßãÊó•ÊúüÔºö${importedData.startDate}\n‚Ä¢ ÊâìÂç°ËÆ∞ÂΩïÔºö${importedData.checkins.length}Â§©\n‚Ä¢ Â§áÊ≥®ËÆ∞ÂΩïÔºö${Object.keys(importedData.notes || {}).length}Êù°\n\n‚ö†Ô∏è ËøôÂ∞ÜË¶ÜÁõñÂΩìÂâçÊâÄÊúâÊï∞ÊçÆÔºÅ`)) {
+                        // ÂêàÂπ∂Êï∞ÊçÆÔºå‰øùÁïô‰∏Ä‰∫õÊú¨Âú∞ËÆæÁΩÆ
+                        rehabData = {
+                            ...importedData,
+                            notes: importedData.notes || {},
+                            shownMilestones: importedData.shownMilestones || [],
+                            darkMode: rehabData.darkMode // ‰øùÁïôÂΩìÂâç‰∏ªÈ¢òËÆæÁΩÆ
+                        };
+                        saveData();
+                        viewingMonth = new Date();
+                        updateUI();
+                        alert('‚úÖ Êï∞ÊçÆÂØºÂÖ•ÊàêÂäüÔºÅ');
+                    }
+                } catch (err) {
+                    alert('‚ùå ÂØºÂÖ•Â§±Ë¥•ÔºöÊñá‰ª∂Ê†ºÂºè‰∏çÊ≠£Á°ÆÔºåËØ∑Á°ÆËÆ§ÊòØÊ≠£Á°ÆÁöÑÂ§á‰ªΩÊñá‰ª∂„ÄÇ');
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = ''; // Ê∏ÖÁ©∫inputÔºåÂÖÅËÆ∏ÈáçÂ§çÂØºÂÖ•Âêå‰∏ÄÊñá‰ª∂
+        }
+
+        // ÈáçÁΩÆËøõÂ∫¶
         function resetProgress() {
-            if (confirm('确定要重置康复计划吗？这将清除所有打卡记录，从第1天重新开始。')) {
+            if (confirm('Á°ÆÂÆöË¶ÅÈáçÁΩÆÂ∫∑Â§çËÆ°ÂàíÂêóÔºü\n\n‚ö†Ô∏è ËøôÂ∞ÜÊ∏ÖÈô§ÊâÄÊúâÊâìÂç°ËÆ∞ÂΩïÂíåÂ§áÊ≥®Ôºå‰ªéÁ¨¨1Â§©ÈáçÊñ∞ÂºÄÂßã„ÄÇ\n\nÂª∫ËÆÆÂÖàÂØºÂá∫Êï∞ÊçÆÂ§á‰ªΩÔºÅ')) {
                 rehabData = {
                     startDate: new Date().toISOString().split('T')[0],
                     checkins: [],
+                    notes: {},
                     notificationsEnabled: rehabData.notificationsEnabled,
                     morningTime: rehabData.morningTime,
-                    eveningTime: rehabData.eveningTime
+                    eveningTime: rehabData.eveningTime,
+                    shownMilestones: [],
+                    darkMode: rehabData.darkMode
                 };
                 saveData();
                 viewingMonth = new Date();
                 updateUI();
-                alert('康复计划已重置，从第1天开始！');
+                alert('Â∫∑Â§çËÆ°ÂàíÂ∑≤ÈáçÁΩÆÔºå‰ªéÁ¨¨1Â§©ÂºÄÂßãÔºÅ');
             }
         }
 
-        // 页面加载时初始化
+        // Â±ïÂºÄ/ÊäòÂè†ËÆ≠ÁªÉÂä®‰Ωú
+        function toggleExercise(element) {
+            element.classList.toggle('expanded');
+            updateCollapseButton();
+        }
+
+        function toggleAllExercises() {
+            const items = document.querySelectorAll('.exercise-item');
+            const allExpanded = Array.from(items).every(item => item.classList.contains('expanded'));
+
+            items.forEach(item => {
+                if (allExpanded) {
+                    item.classList.remove('expanded');
+                } else {
+                    item.classList.add('expanded');
+                }
+            });
+            updateCollapseButton();
+        }
+
+        function updateCollapseButton() {
+            const items = document.querySelectorAll('.exercise-item');
+            const allExpanded = Array.from(items).every(item => item.classList.contains('expanded'));
+            document.getElementById('collapseBtn').textContent = allExpanded ? 'ÂÖ®ÈÉ®ÊäòÂè†' : 'ÂÖ®ÈÉ®Â±ïÂºÄ';
+        }
+
+        // Ê∑±Ëâ≤Ê®°Âºè
+        function toggleTheme() {
+            rehabData.darkMode = !rehabData.darkMode;
+            saveData();
+            updateTheme();
+        }
+
+        function updateTheme() {
+            if (rehabData.darkMode) {
+                document.documentElement.classList.add('dark-mode');
+                document.querySelector('.theme-toggle').textContent = '‚òÄÔ∏è';
+            } else {
+                document.documentElement.classList.remove('dark-mode');
+                document.querySelector('.theme-toggle').textContent = 'üåô';
+            }
+        }
+
+        // ÁÇπÂáªÊ®°ÊÄÅÊ°ÜÂ§ñÈÉ®ÂÖ≥Èó≠
+        document.getElementById('noteModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeNoteModal();
+            }
+        });
+
+        // È°µÈù¢Âä†ËΩΩÊó∂ÂàùÂßãÂåñ
         window.onload = function() {
             updateUI();
             if (rehabData.notificationsEnabled) {
                 scheduleNotifications();
             }
+
+            // Ê£ÄÊü•ÊòØÂê¶Á¨¨20Â§©ÔºàÈ¶ñÊ¨°ËøõÂÖ•Êó∂Ê£ÄÊü•Ôºâ
+            const currentDay = getCurrentDay();
+            if (currentDay >= 20 && !rehabData.shownMilestones.includes('day20')) {
+                rehabData.shownMilestones.push('day20');
+                saveData();
+                showMilestone("üéä ËøõÂÖ•Á¨¨‰∫åÈò∂ÊÆµÔºÅ", "ÊÅ≠ÂñúÔºÅ‰ªé‰ªäÂ§©ÂºÄÂßãÂèØ‰ª•ÂÅöÂêéÈù¢4‰∏™Âä®‰Ωú‰∫ÜÔºöÈù†Â¢ôÈùôËπ≤„ÄÅÂèåËÖø‰∏ãËπ≤„ÄÅÂâçÂêëÂºìÊ≠•„ÄÅÂêéÂêëÂºìÊ≠•ÔºÅ");
+            }
+
+            // ÊØèÂàÜÈíüÊõ¥Êñ∞‰∏ÄÊ¨°ÊèêÈÜíÁõ∏ÂÖ≥Áä∂ÊÄÅ
+            setInterval(() => {
+                updateReminderAlert();
+                updateNextReminder();
+            }, 60000);
         };
     </script>
 </body>
