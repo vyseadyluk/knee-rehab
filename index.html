@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ËÜùÁõñÂ∫∑Â§çÂä©Êâã</title>
+    <title>膝盖康复助手</title>
     <style>
         :root {
             --primary: #667eea;
@@ -63,7 +63,7 @@
         }
         .subtitle { text-align: center; color: var(--text-light); margin-bottom: 15px; font-size: 13px; line-height: 1.5; }
 
-        /* ËøõÂ∫¶Êù°Âå∫Âüü */
+        /* 进度条区域 */
         .progress-bar-section { margin-bottom: 15px; }
         .progress-bar-container {
             background: var(--bg-light);
@@ -98,7 +98,7 @@
         .progress-number { font-size: 28px; font-weight: bold; color: var(--primary); }
         .progress-label { font-size: 11px; color: var(--text-light); margin-top: 3px; }
 
-        /* Êú¨Âë®ÁªüËÆ° */
+        /* 本周统计 */
         .week-stats {
             background: var(--bg-light);
             padding: 12px 15px;
@@ -124,7 +124,7 @@
         .week-dot.checked { background: var(--success); color: white; }
         .week-dot.today { border: 2px solid var(--primary); }
 
-        /* Êú™ÊâìÂç°ÊèêÈÜí */
+        /* 未打卡提醒 */
         .reminder-alert {
             background: linear-gradient(135deg, #ff6b6b, #ee5a24);
             color: white;
@@ -140,7 +140,7 @@
             50% { opacity: 0.8; }
         }
 
-        /* ÈºìÂä±ËØ≠ */
+        /* 鼓励语 */
         .motivation {
             background: linear-gradient(135deg, var(--success), #27ae60);
             color: white;
@@ -173,7 +173,7 @@
         .undo-btn { flex: 0 0 auto; padding: 18px; background: var(--warning); color: white; border: none; border-radius: 15px; font-size: 15px; font-weight: bold; cursor: pointer; }
         .undo-btn:disabled { background: #ccc; cursor: not-allowed; }
 
-        /* ËÆ≠ÁªÉÂä®‰ΩúÂå∫Âüü */
+        /* 训练动作区域 */
         .exercises { background: var(--bg-light); padding: 15px; border-radius: 15px; margin-bottom: 15px; }
         .exercises h2 { color: var(--text-dark); margin-bottom: 12px; font-size: 16px; display: flex; justify-content: space-between; align-items: center; }
         .collapse-all { font-size: 12px; color: var(--primary); background: none; border: none; cursor: pointer; }
@@ -195,7 +195,7 @@
         .note { background: #fff3cd; padding: 10px; border-radius: 8px; font-size: 12px; color: #856404; margin-top: 10px; line-height: 1.4; }
         .dark-mode .note { background: #3d3d2e; color: #d4d4aa; }
 
-        /* Êó•ÂéÜÂå∫Âüü */
+        /* 日历区域 */
         .calendar-section { background: var(--bg-light); padding: 15px; border-radius: 15px; margin-bottom: 15px; }
         .month-selector { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
         .month-selector button { background: var(--primary); color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px; }
@@ -250,7 +250,7 @@
             border-radius: 50%;
         }
 
-        /* Â§áÊ≥®Ê®°ÊÄÅÊ°Ü */
+        /* 备注模态框 */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -299,7 +299,7 @@
         .modal-buttons .cancel-btn { background: #e0e0e0; color: var(--text-dark); }
         .modal-buttons .delete-btn { background: var(--danger); color: white; flex: 0 0 auto; padding: 12px 16px; }
 
-        /* Êï∞ÊçÆÁÆ°ÁêÜÂå∫Âüü */
+        /* 数据管理区域 */
         .data-section {
             background: var(--bg-light);
             padding: 15px;
@@ -325,7 +325,7 @@
 
         .reset-btn { width: 100%; padding: 12px; background: var(--danger); color: white; border: none; border-radius: 10px; font-size: 13px; cursor: pointer; }
 
-        /* ÈáåÁ®ãÁ¢ëÂºπÁ™ó */
+        /* 里程碑弹窗 */
         .milestone-popup {
             display: none;
             position: fixed;
@@ -358,27 +358,27 @@
             cursor: pointer;
         }
 
-        /* Êñá‰ª∂ËæìÂÖ•ÈöêËóè */
+        /* 文件输入隐藏 */
         #importInput { display: none; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>ËÜùÁõñÂ∫∑Â§çÂä©Êâã</h1>
-            <button class="theme-toggle" onclick="toggleTheme()" title="ÂàáÊç¢Ê∑±Ëâ≤/ÊµÖËâ≤Ê®°Âºè">üåô</button>
+            <h1>膝盖康复助手</h1>
+            <button class="theme-toggle" onclick="toggleTheme()" title="切换深色/浅色模式">🌙</button>
         </div>
-        <p class="subtitle">Â∫∑Â§çËÆ≠ÁªÉËÆ°ÂàíÔºà180Â§©Ôºâ¬∑ ÂùöÊåÅËÆ≠ÁªÉÔºåÊó©Êó•ÊÅ¢Â§ç</p>
+        <p class="subtitle">康复训练计划（180天）· 坚持训练，早日恢复</p>
 
-        <!-- 180Â§©ËøõÂ∫¶Êù° -->
+        <!-- 180天进度条 -->
         <div class="progress-bar-section">
             <div class="progress-bar-container">
                 <div class="progress-bar" id="progressBar"><span id="progressPercent">0%</span></div>
             </div>
             <div class="progress-text">
-                <span>Á¨¨1Â§©</span>
-                <span id="progressDays">Â∑≤ÊâìÂç° 0/180 Â§©</span>
-                <span>Á¨¨180Â§©</span>
+                <span>第1天</span>
+                <span id="progressDays">已打卡 0/180 天</span>
+                <span>第180天</span>
             </div>
         </div>
 
@@ -386,47 +386,47 @@
             <div class="progress-info">
                 <div class="progress-item">
                     <div class="progress-number" id="dayNumber">1</div>
-                    <div class="progress-label">Á¨¨Âá†Â§©</div>
+                    <div class="progress-label">第几天</div>
                 </div>
                 <div class="progress-item">
                     <div class="progress-number" id="totalCheckins">0</div>
-                    <div class="progress-label">Á¥ØËÆ°ÊâìÂç°</div>
+                    <div class="progress-label">累计打卡</div>
                 </div>
                 <div class="progress-item">
                     <div class="progress-number" id="streak">0</div>
-                    <div class="progress-label">ËøûÁª≠Â§©Êï∞</div>
+                    <div class="progress-label">连续天数</div>
                 </div>
             </div>
         </div>
 
-        <!-- Êú¨Âë®ÊâìÂç°ÁªüËÆ° -->
+        <!-- 本周打卡统计 -->
         <div class="week-stats">
-            <span class="week-stats-label">Êú¨Âë®ÊâìÂç°</span>
+            <span class="week-stats-label">本周打卡</span>
             <div class="week-stats-dots" id="weekDots"></div>
         </div>
 
-        <!-- Êú™ÊâìÂç°ÊèêÈÜíÔºà‰∏ãÂçàÊòæÁ§∫Ôºâ -->
+        <!-- 未打卡提醒（下午显示） -->
         <div class="reminder-alert" id="reminderAlert" style="display:none;">
-            ‚è∞ ‰ªäÂ§©ËøòÊ≤°ÊâìÂç°Âì¶ÔºÅÂà´Âøò‰∫ÜÂÅöÂ∫∑Â§çËÆ≠ÁªÉÔºÅ
+            ⏰ 今天还没打卡哦！别忘了做康复训练！
         </div>
 
-        <!-- ÈºìÂä±ËØ≠ -->
+        <!-- 鼓励语 -->
         <div class="motivation" id="motivationBox" style="display:none;"></div>
 
         <div class="notification-warning">
-            ‚ö†Ô∏è <strong>iPhoneÈÄöÁü•ËØ¥ÊòéÔºö</strong>ÁΩëÈ°µÈÄöÁü•Âú®iPhone‰∏ä‰∏çÁ®≥ÂÆöÔºåÂª∫ËÆÆ‰ΩøÁî®iPhoneËá™Â∏¶ÁöÑ"ÊèêÈÜí‰∫ãÈ°π"AppËÆæÁΩÆÊØèÊó•ÈáçÂ§çÊèêÈÜí„ÄÇ
+            ⚠️ <strong>iPhone通知说明：</strong>网页通知在iPhone上不稳定，建议使用iPhone自带的"提醒事项"App设置每日重复提醒。
         </div>
 
         <div class="notification-setup" id="notificationStatus">
-            <p>üîî Â∞ùËØïÂºÄÂêØÊµèËßàÂô®ÈÄöÁü•ÔºàÁîµËÑëÁ´ØÊé®ËçêÔºâ</p>
-            <button onclick="enableNotifications()">ÂºÄÂêØÈÄöÁü•</button>
+            <p>🔔 尝试开启浏览器通知（电脑端推荐）</p>
+            <button onclick="enableNotifications()">开启通知</button>
             <div class="time-settings">
                 <div class="time-input">
-                    <label>Êó©‰∏äÊèêÈÜí</label>
+                    <label>早上提醒</label>
                     <input type="time" id="morningTime" value="08:00">
                 </div>
                 <div class="time-input">
-                    <label>Êôö‰∏äÊèêÈÜí</label>
+                    <label>晚上提醒</label>
                     <input type="time" id="eveningTime" value="19:00">
                 </div>
             </div>
@@ -434,188 +434,188 @@
         </div>
 
         <div class="checkin-buttons">
-            <button class="checkin-btn" id="checkinBtn" onclick="dailyCheckin()">‰ªäÊó•ËÆ≠ÁªÉÊâìÂç°</button>
-            <button class="undo-btn" id="undoBtn" onclick="undoCheckin()" disabled>Êí§ÈîÄ</button>
+            <button class="checkin-btn" id="checkinBtn" onclick="dailyCheckin()">今日训练打卡</button>
+            <button class="undo-btn" id="undoBtn" onclick="undoCheckin()" disabled>撤销</button>
         </div>
 
         <div class="exercises">
             <h2>
-                üìã Â∫∑Â§çËÆ≠ÁªÉËÆ°Âàí
-                <button class="collapse-all" id="collapseBtn" onclick="toggleAllExercises()">ÂÖ®ÈÉ®Â±ïÂºÄ</button>
+                📋 康复训练计划
+                <button class="collapse-all" id="collapseBtn" onclick="toggleAllExercises()">全部展开</button>
             </h2>
 
             <div class="exercise-item phase1" onclick="toggleExercise(this)">
                 <div class="exercise-title">
-                    1. ÂçïËÖøÁ´ôÁ´ã
+                    1. 单腿站立
                     <span>
-                        <span class="phase-tag phase1">Á¨¨1-20Â§©</span>
-                        <span class="expand-icon">‚ñº</span>
+                        <span class="phase-tag phase1">第1-20天</span>
+                        <span class="expand-icon">▼</span>
                     </span>
                 </div>
                 <div class="exercise-details">
-                    ÁùÅÁúº30Áßí/‰∏™ÔºåÈó≠Áúº15Áßí/‰∏™Ôºå2-3‰∏™/ÁªÑÔºå2ÁªÑ/Â§©<br>
-                    ËÆ≠ÁªÉÊó∂Â∫îÂÆåÂÖ®Êó†ÁóõÔºåÁõÆÁöÑÂú®‰∫éÊîπÂñÑËÇåËÇâÂäüËÉΩ
+                    睁眼30秒/个，闭眼15秒/个，2-3个/组，2组/天<br>
+                    训练时应完全无痛，目的在于改善肌肉功能
                 </div>
             </div>
 
             <div class="exercise-item phase2" onclick="toggleExercise(this)">
                 <div class="exercise-title">
-                    2. Èù†Â¢ôÈùôËπ≤
+                    2. 靠墙静蹲
                     <span>
-                        <span class="phase-tag phase2">Á¨¨20Â§©Ëµ∑</span>
-                        <span class="expand-icon">‚ñº</span>
+                        <span class="phase-tag phase2">第20天起</span>
+                        <span class="expand-icon">▼</span>
                     </span>
                 </div>
                 <div class="exercise-details">
-                    30-120Áßí/‰∏™Ôºå2-3‰∏™/Â§©ÊàñÈöîÂ§©<br>
-                    ËÆ≠ÁªÉÊó∂Â∫îÂÆåÂÖ®Êó†ÁóõÔºåÁõÆÁöÑÂú®‰∫éÊîπÂñÑËÇåËÇâÂäüËÉΩ
+                    30-120秒/个，2-3个/天或隔天<br>
+                    训练时应完全无痛，目的在于改善肌肉功能
                 </div>
             </div>
 
             <div class="exercise-item phase2" onclick="toggleExercise(this)">
                 <div class="exercise-title">
-                    3. ÂèåËÖø‰∏ãËπ≤
+                    3. 双腿下蹲
                     <span>
-                        <span class="phase-tag phase2">Á¨¨20Â§©Ëµ∑</span>
-                        <span class="expand-icon">‚ñº</span>
+                        <span class="phase-tag phase2">第20天起</span>
+                        <span class="expand-icon">▼</span>
                     </span>
                 </div>
                 <div class="exercise-details">
-                    10-20‰∏™/ÁªÑÔºå2-3ÁªÑ/Â§©ÊàñÈöîÂ§©<br>
-                    ËÆ≠ÁªÉÊó∂Â∫îÂÆåÂÖ®Êó†ÁóõÔºåÁõÆÁöÑÂú®‰∫éÊîπÂñÑËÇåËÇâÂäüËÉΩ
+                    10-20个/组，2-3组/天或隔天<br>
+                    训练时应完全无痛，目的在于改善肌肉功能
                 </div>
             </div>
 
             <div class="exercise-item phase2" onclick="toggleExercise(this)">
                 <div class="exercise-title">
-                    4. ÂâçÂêëÂºìÊ≠•
+                    4. 前向弓步
                     <span>
-                        <span class="phase-tag phase2">Á¨¨20Â§©Ëµ∑</span>
-                        <span class="expand-icon">‚ñº</span>
+                        <span class="phase-tag phase2">第20天起</span>
+                        <span class="expand-icon">▼</span>
                     </span>
                 </div>
                 <div class="exercise-details">
-                    10-20‰∏™/ÁªÑÔºå2-3ÁªÑ/Â§©ÊàñÈöîÂ§©<br>
-                    ËÆ≠ÁªÉÊó∂Â∫îÂÆåÂÖ®Êó†ÁóõÔºåÁõÆÁöÑÂú®‰∫éÊîπÂñÑËÇåËÇâÂäüËÉΩ
+                    10-20个/组，2-3组/天或隔天<br>
+                    训练时应完全无痛，目的在于改善肌肉功能
                 </div>
             </div>
 
             <div class="exercise-item phase2" onclick="toggleExercise(this)">
                 <div class="exercise-title">
-                    5. ÂêéÂêëÂºìÊ≠•
+                    5. 后向弓步
                     <span>
-                        <span class="phase-tag phase2">Á¨¨20Â§©Ëµ∑</span>
-                        <span class="expand-icon">‚ñº</span>
+                        <span class="phase-tag phase2">第20天起</span>
+                        <span class="expand-icon">▼</span>
                     </span>
                 </div>
                 <div class="exercise-details">
-                    10-20‰∏™/ÁªÑÔºå2-3ÁªÑ/Â§©ÊàñÈöîÂ§©<br>
-                    ËÆ≠ÁªÉÊó∂Â∫îÂÆåÂÖ®Êó†ÁóõÔºåÁõÆÁöÑÂú®‰∫éÊîπÂñÑËÇåËÇâÂäüËÉΩ
+                    10-20个/组，2-3组/天或隔天<br>
+                    训练时应完全无痛，目的在于改善肌肉功能
                 </div>
             </div>
 
             <div class="note">
-                ‚ö†Ô∏è <strong>ÈáçË¶ÅÊèêÁ§∫Ôºö</strong>ÈúÄË¶ÅËøõË°åÊîØÂÖ∑Ë∞ÉËäÇÔºåÊó†Áóõ‰∏îÈ´òË¥®ÈáèÁöÑËÇåËÇâÂäüËÉΩËÆ≠ÁªÉÂèØ‰ª•‰øùÊä§Âπ∂‰øÉËøõÁªÑÁªá‰øÆÂ§ç„ÄÇ
+                ⚠️ <strong>重要提示：</strong>需要进行支具调节，无痛且高质量的肌肉功能训练可以保护并促进组织修复。
             </div>
         </div>
 
         <div class="calendar-section">
             <div class="month-selector">
-                <button onclick="changeMonth(-1)">‚óÄ ‰∏äÊúà</button>
-                <div class="month-title" id="monthTitle">2026Âπ¥2Êúà</div>
-                <button onclick="changeMonth(1)">‰∏ãÊúà ‚ñ∂</button>
+                <button onclick="changeMonth(-1)">◀ 上月</button>
+                <div class="month-title" id="monthTitle">2026年2月</div>
+                <button onclick="changeMonth(1)">下月 ▶</button>
             </div>
             <div class="calendar-grid" id="calendar"></div>
             <div class="legend">
                 <div class="legend-item">
                     <div class="legend-box phase1"></div>
-                    <span>Á¨¨1-20Â§©</span>
+                    <span>第1-20天</span>
                 </div>
                 <div class="legend-item">
                     <div class="legend-box phase2"></div>
-                    <span>Á¨¨20Â§©Ëµ∑</span>
+                    <span>第20天起</span>
                 </div>
                 <div class="legend-item">
                     <div class="legend-box has-note"></div>
-                    <span>ÊúâÂ§áÊ≥®</span>
+                    <span>有备注</span>
                 </div>
             </div>
         </div>
 
-        <!-- Êï∞ÊçÆÁÆ°ÁêÜ -->
+        <!-- 数据管理 -->
         <div class="data-section">
-            <h3>üì¶ Êï∞ÊçÆÁÆ°ÁêÜ</h3>
+            <h3>📦 数据管理</h3>
             <div class="data-buttons">
-                <button class="data-btn" onclick="exportData()">üì§ ÂØºÂá∫Êï∞ÊçÆ</button>
-                <button class="data-btn" onclick="document.getElementById('importInput').click()">üì• ÂØºÂÖ•Êï∞ÊçÆ</button>
+                <button class="data-btn" onclick="exportData()">📤 导出数据</button>
+                <button class="data-btn" onclick="document.getElementById('importInput').click()">📥 导入数据</button>
             </div>
             <input type="file" id="importInput" accept=".json" onchange="importData(event)">
         </div>
 
-        <button class="reset-btn" onclick="resetProgress()">üîÑ ÈáçÁΩÆÂ∫∑Â§çËÆ°Âàí</button>
+        <button class="reset-btn" onclick="resetProgress()">🔄 重置康复计划</button>
     </div>
 
-    <!-- Â§áÊ≥®Ê®°ÊÄÅÊ°Ü -->
+    <!-- 备注模态框 -->
     <div class="modal-overlay" id="noteModal">
         <div class="modal">
-            <h3 id="noteModalTitle">Ê∑ªÂä†ËÆ≠ÁªÉÂ§áÊ≥®</h3>
-            <textarea id="noteText" placeholder="ËÆ∞ÂΩï‰ªäÂ§©ÁöÑËÆ≠ÁªÉÊÑüÂèóÔºåÊØîÂ¶ÇÔºö&#10;‚Ä¢ ‰ªäÂ§©ËÜùÁõñÊÑüËßâ‰∏çÈîô&#10;‚Ä¢ ÂÆåÊàê‰∫ÜÊâÄÊúâÂä®‰Ωú&#10;‚Ä¢ ÊúâËΩªÂæÆÈÖ∏Áóõ"></textarea>
+            <h3 id="noteModalTitle">添加训练备注</h3>
+            <textarea id="noteText" placeholder="记录今天的训练感受，比如：&#10;• 今天膝盖感觉不错&#10;• 完成了所有动作&#10;• 有轻微酸痛"></textarea>
             <div class="modal-buttons">
-                <button class="cancel-btn" onclick="closeNoteModal()">ÂèñÊ∂à</button>
-                <button class="delete-btn" id="deleteNoteBtn" onclick="deleteNote()" style="display:none;">Âà†Èô§</button>
-                <button class="save-btn" onclick="saveNote()">‰øùÂ≠ò</button>
+                <button class="cancel-btn" onclick="closeNoteModal()">取消</button>
+                <button class="delete-btn" id="deleteNoteBtn" onclick="deleteNote()" style="display:none;">删除</button>
+                <button class="save-btn" onclick="saveNote()">保存</button>
             </div>
         </div>
     </div>
 
-    <!-- ÈáåÁ®ãÁ¢ëÂºπÁ™ó -->
+    <!-- 里程碑弹窗 -->
     <div class="milestone-popup" id="milestonePopup">
-        <h2 id="milestoneTitle">üéâ</h2>
+        <h2 id="milestoneTitle">🎉</h2>
         <p id="milestoneText"></p>
-        <button onclick="closeMilestone()">Â§™Ê£í‰∫ÜÔºÅ</button>
+        <button onclick="closeMilestone()">太棒了！</button>
     </div>
 
     <script>
-        // ÈºìÂä±ËØ≠ÂàóË°®
+        // 鼓励语列表
         const motivations = [
-            "üí™ ÊØè‰∏ÄÊ¨°ËÆ≠ÁªÉÈÉΩÊòØÂêëÂ∫∑Â§çËøàËøõÁöÑ‰∏ÄÊ≠•ÔºÅ",
-            "üåü ÂùöÊåÅÂ∞±ÊòØËÉúÂà©Ôºå‰Ω†ÂÅöÂæóÂæàÊ£íÔºÅ",
-            "üéØ ‰∏ìÊ≥®ÂΩì‰∏ãÔºå‰∏ÄÊ≠•‰∏Ä‰∏™ËÑöÂç∞ÔºÅ",
-            "üåà Â∫∑Â§çË∑Ø‰∏äÔºå‰Ω†‰ªé‰∏çÂ≠§ÂçïÔºÅ",
-            "‚≠ê ‰ªäÂ§©ÁöÑÂä™ÂäõÔºåÊòéÂ§©ÁöÑÂÅ•Â∫∑ÔºÅ",
-            "üèÜ ËÉΩÂùöÊåÅÂà∞Áé∞Âú®ÔºåÂ∑≤ÁªèÂæà‰∫Ü‰∏çËµ∑ÔºÅ",
-            "üíñ ÁÖßÈ°æÂ•ΩËá™Â∑±ÔºåÊÖ¢ÊÖ¢Êù•‰∏çÁùÄÊÄ•ÔºÅ",
-            "üåª Èò≥ÂÖâÊÄªÂú®È£éÈõ®ÂêéÔºåÂä†Ê≤πÔºÅ",
-            "‚ú® Áõ∏‰ø°Ëá™Â∑±Ôºå‰Ω†‰∏ÄÂÆöÂèØ‰ª•ÔºÅ",
-            "üéä ÊØèÂ§©ËøõÊ≠•‰∏ÄÁÇπÁÇπÔºåÂ∞±ÊòØÊúÄÂ•ΩÁöÑÔºÅ"
+            "💪 每一次训练都是向康复迈进的一步！",
+            "🌟 坚持就是胜利，你做得很棒！",
+            "🎯 专注当下，一步一个脚印！",
+            "🌈 康复路上，你从不孤单！",
+            "⭐ 今天的努力，明天的健康！",
+            "🏆 能坚持到现在，已经很了不起！",
+            "💖 照顾好自己，慢慢来不着急！",
+            "🌻 阳光总在风雨后，加油！",
+            "✨ 相信自己，你一定可以！",
+            "🎊 每天进步一点点，就是最好的！"
         ];
 
-        // ÈáåÁ®ãÁ¢ëÈÖçÁΩÆ
+        // 里程碑配置
         const milestones = [
-            { days: 7, title: "üéâ ‰∏ÄÂë®ËææÊàêÔºÅ", text: "ËøûÁª≠ÂùöÊåÅ7Â§©Ôºå‰Ω†Â§™Ê£í‰∫ÜÔºÅ" },
-            { days: 14, title: "üåü ‰∏§Âë®ÂùöÊåÅÔºÅ", text: "14Â§©ÁöÑÂä™ÂäõÔºåÁúãÂæóËßÅÁöÑËøõÊ≠•ÔºÅ" },
-            { days: 20, title: "üéä Á¨¨20Â§©ÈáåÁ®ãÁ¢ëÔºÅ", text: "ÊÅ≠ÂñúÔºÅ‰ªäÂ§©ÂºÄÂßãÂèØ‰ª•ÂÅöÂêéÈù¢4‰∏™Âä®‰Ωú‰∫ÜÔºÅ" },
-            { days: 30, title: "üèÜ ‰∏Ä‰∏™ÊúàÊàêÂ∞±ÔºÅ", text: "30Â§©ÂùöÊåÅÔºå‰Ω†ÁúüÁöÑÂæàÊ£íÔºÅ" },
-            { days: 60, title: "üí™ ‰∏§‰∏™ÊúàÂããÁ´†ÔºÅ", text: "60Â§©ÁöÑÊØÖÂäõÔºåÂÄºÂæóÈ™ÑÂÇ≤ÔºÅ" },
-            { days: 90, title: "‚≠ê 90Â§©Â§ßÂ∏àÔºÅ", text: "‰∏â‰∏™ÊúàÂùöÊåÅÔºåÂ∫∑Â§ç‰πãË∑ØÂ∑≤ËøáÂçäÔºÅ" },
-            { days: 100, title: "üíØ ÁôæÊó•ÊàêÂ∞±ÔºÅ", text: "100Â§©ÔºÅËøô‰ªΩÂùöÊåÅÂ§™ÁèçË¥µÔºÅ" },
-            { days: 150, title: "üåà 150Â§©‰º†Â•áÔºÅ", text: "150Â§©ÁöÑÂùöÊåÅÔºå‰Ω†ÊòØÊúÄÊ£íÁöÑÔºÅ" },
-            { days: 180, title: "üéä Â∫∑Â§çËÆ°ÂàíÂÆåÊàêÔºÅ", text: "180Â§©ÔºÅÊÅ≠Âñú‰Ω†ÂÆåÊàê‰∫ÜÊï¥‰∏™Â∫∑Â§çËÆ°ÂàíÔºÅ" }
+            { days: 7, title: "🎉 一周达成！", text: "连续坚持7天，你太棒了！" },
+            { days: 14, title: "🌟 两周坚持！", text: "14天的努力，看得见的进步！" },
+            { days: 20, title: "🎊 第20天里程碑！", text: "恭喜！今天开始可以做后面4个动作了！" },
+            { days: 30, title: "🏆 一个月成就！", text: "30天坚持，你真的很棒！" },
+            { days: 60, title: "💪 两个月勋章！", text: "60天的毅力，值得骄傲！" },
+            { days: 90, title: "⭐ 90天大师！", text: "三个月坚持，康复之路已过半！" },
+            { days: 100, title: "💯 百日成就！", text: "100天！这份坚持太珍贵！" },
+            { days: 150, title: "🌈 150天传奇！", text: "150天的坚持，你是最棒的！" },
+            { days: 180, title: "🎊 康复计划完成！", text: "180天！恭喜你完成了整个康复计划！" }
         ];
 
-        // ÂàùÂßãÂåñÊï∞ÊçÆ
+        // 初始化数据
         let rehabData = JSON.parse(localStorage.getItem('rehabData')) || {
             startDate: new Date().toISOString().split('T')[0],
             checkins: [],
-            notes: {}, // Êñ∞Â¢ûÔºöÊØèÊó•Â§áÊ≥® { "2026-02-01": "‰ªäÂ§©ÊÑüËßâ‰∏çÈîô" }
+            notes: {}, // 新增：每日备注 { "2026-02-01": "今天感觉不错" }
             notificationsEnabled: false,
             morningTime: '08:00',
             eveningTime: '19:00',
-            shownMilestones: [], // Â∑≤ÊòæÁ§∫ÁöÑÈáåÁ®ãÁ¢ë
+            shownMilestones: [], // 已显示的里程碑
             darkMode: false
         };
 
-        // ËøÅÁßªÊóßÊï∞ÊçÆÔºàÂ¶ÇÊûúÊ≤°ÊúânotesÂ≠óÊÆµÔºâ
+        // 迁移旧数据（如果没有notes字段）
         if (!rehabData.notes) rehabData.notes = {};
         if (!rehabData.shownMilestones) rehabData.shownMilestones = [];
         if (rehabData.darkMode === undefined) rehabData.darkMode = false;
@@ -623,12 +623,12 @@
         let viewingMonth = new Date();
         let currentNoteDate = null;
 
-        // ‰øùÂ≠òÊï∞ÊçÆ
+        // 保存数据
         function saveData() {
             localStorage.setItem('rehabData', JSON.stringify(rehabData));
         }
 
-        // ËÆ°ÁÆó‰ªéÂºÄÂßãÁ¨¨Âá†Â§©
+        // 计算从开始第几天
         function getCurrentDay() {
             const start = new Date(rehabData.startDate);
             const today = new Date();
@@ -639,12 +639,12 @@
             return Math.max(1, diffDays + 1);
         }
 
-        // Ëé∑Âèñ‰ªäÂ§©Êó•ÊúüÂ≠óÁ¨¶‰∏≤
+        // 获取今天日期字符串
         function getTodayString() {
             return new Date().toISOString().split('T')[0];
         }
 
-        // ‰ªäÊó•ÊâìÂç°
+        // 今日打卡
         function dailyCheckin() {
             const today = getTodayString();
             if (!rehabData.checkins.includes(today)) {
@@ -652,22 +652,22 @@
                 saveData();
                 updateUI();
 
-                // ÊâìÂç°ÂêéÂºπÂá∫Â§áÊ≥®Ê°Ü
+                // 打卡后弹出备注框
                 openNoteModal(today, true);
 
-                // Ê£ÄÊü•ÈáåÁ®ãÁ¢ë
+                // 检查里程碑
                 checkMilestones();
             } else {
-                alert('‰ªäÂ§©Â∑≤ÁªèÊâìÂç°Ëøá‰∫ÜÂì¶ÔºÅ');
+                alert('今天已经打卡过了哦！');
             }
         }
 
-        // Êí§ÈîÄ‰ªäÊó•ÊâìÂç°
+        // 撤销今日打卡
         function undoCheckin() {
             const today = getTodayString();
             const index = rehabData.checkins.indexOf(today);
             if (index > -1) {
-                if (confirm('Á°ÆÂÆöË¶ÅÊí§ÈîÄ‰ªäÂ§©ÁöÑÊâìÂç°ÂêóÔºü')) {
+                if (confirm('确定要撤销今天的打卡吗？')) {
                     rehabData.checkins.splice(index, 1);
                     delete rehabData.notes[today];
                     saveData();
@@ -676,12 +676,12 @@
             }
         }
 
-        // Ê£ÄÊü•‰ªäÂ§©ÊòØÂê¶ÊâìÂç°
+        // 检查今天是否打卡
         function isTodayChecked() {
             return rehabData.checkins.includes(getTodayString());
         }
 
-        // ËÆ°ÁÆóËøûÁª≠Â§©Êï∞
+        // 计算连续天数
         function calculateStreak() {
             if (rehabData.checkins.length === 0) return 0;
             const sortedCheckins = [...rehabData.checkins].sort().reverse();
@@ -703,20 +703,20 @@
             return streak;
         }
 
-        // Ê£ÄÊü•Âπ∂ÊòæÁ§∫ÈáåÁ®ãÁ¢ë
+        // 检查并显示里程碑
         function checkMilestones() {
             const currentDay = getCurrentDay();
             const streak = calculateStreak();
 
-            // Ê£ÄÊü•Á¨¨20Â§©ÁâπÊÆäÊèêÈÜí
+            // 检查第20天特殊提醒
             if (currentDay === 20 && !rehabData.shownMilestones.includes('day20')) {
                 rehabData.shownMilestones.push('day20');
                 saveData();
-                showMilestone("üéä ËøõÂÖ•Á¨¨‰∫åÈò∂ÊÆµÔºÅ", "ÊÅ≠ÂñúÔºÅ‰ªé‰ªäÂ§©ÂºÄÂßãÂèØ‰ª•ÂÅöÂêéÈù¢4‰∏™Âä®‰Ωú‰∫ÜÔºöÈù†Â¢ôÈùôËπ≤„ÄÅÂèåËÖø‰∏ãËπ≤„ÄÅÂâçÂêëÂºìÊ≠•„ÄÅÂêéÂêëÂºìÊ≠•ÔºÅ");
+                showMilestone("🎊 进入第二阶段！", "恭喜！从今天开始可以做后面4个动作了：靠墙静蹲、双腿下蹲、前向弓步、后向弓步！");
                 return;
             }
 
-            // Ê£ÄÊü•ËøûÁª≠ÊâìÂç°ÈáåÁ®ãÁ¢ë
+            // 检查连续打卡里程碑
             for (let milestone of milestones) {
                 if (streak === milestone.days && !rehabData.shownMilestones.includes(`streak${milestone.days}`)) {
                     rehabData.shownMilestones.push(`streak${milestone.days}`);
@@ -727,35 +727,35 @@
             }
         }
 
-        // ÊòæÁ§∫ÈáåÁ®ãÁ¢ëÂºπÁ™ó
+        // 显示里程碑弹窗
         function showMilestone(title, text) {
             document.getElementById('milestoneTitle').textContent = title;
             document.getElementById('milestoneText').textContent = text;
             document.getElementById('milestonePopup').classList.add('show');
         }
 
-        // ÂÖ≥Èó≠ÈáåÁ®ãÁ¢ëÂºπÁ™ó
+        // 关闭里程碑弹窗
         function closeMilestone() {
             document.getElementById('milestonePopup').classList.remove('show');
         }
 
-        // ÊâìÂºÄÂ§áÊ≥®Ê®°ÊÄÅÊ°Ü
+        // 打开备注模态框
         function openNoteModal(date, isNew = false) {
             currentNoteDate = date;
             const existingNote = rehabData.notes[date] || '';
             document.getElementById('noteText').value = existingNote;
-            document.getElementById('noteModalTitle').textContent = isNew ? 'Ê∑ªÂä†ËÆ≠ÁªÉÂ§áÊ≥®ÔºàÂèØÈÄâÔºâ' : `${date} ÁöÑËÆ≠ÁªÉÂ§áÊ≥®`;
+            document.getElementById('noteModalTitle').textContent = isNew ? '添加训练备注（可选）' : `${date} 的训练备注`;
             document.getElementById('deleteNoteBtn').style.display = existingNote ? 'block' : 'none';
             document.getElementById('noteModal').classList.add('show');
         }
 
-        // ÂÖ≥Èó≠Â§áÊ≥®Ê®°ÊÄÅÊ°Ü
+        // 关闭备注模态框
         function closeNoteModal() {
             document.getElementById('noteModal').classList.remove('show');
             currentNoteDate = null;
         }
 
-        // ‰øùÂ≠òÂ§áÊ≥®
+        // 保存备注
         function saveNote() {
             const note = document.getElementById('noteText').value.trim();
             if (note) {
@@ -768,9 +768,9 @@
             closeNoteModal();
         }
 
-        // Âà†Èô§Â§áÊ≥®
+        // 删除备注
         function deleteNote() {
-            if (confirm('Á°ÆÂÆöË¶ÅÂà†Èô§ËøôÊù°Â§áÊ≥®ÂêóÔºü')) {
+            if (confirm('确定要删除这条备注吗？')) {
                 delete rehabData.notes[currentNoteDate];
                 saveData();
                 updateUI();
@@ -778,14 +778,14 @@
             }
         }
 
-        // Êõ¥Êñ∞Êú¨Âë®ÊâìÂç°ÊòæÁ§∫
+        // 更新本周打卡显示
         function updateWeekStats() {
             const weekDots = document.getElementById('weekDots');
             weekDots.innerHTML = '';
 
             const today = new Date();
-            const dayOfWeek = today.getDay(); // 0=Âë®Êó•
-            const weekDays = ['Êó•', '‰∏Ä', '‰∫å', '‰∏â', 'Âõõ', '‰∫î', 'ÂÖ≠'];
+            const dayOfWeek = today.getDay(); // 0=周日
+            const weekDays = ['日', '一', '二', '三', '四', '五', '六'];
 
             for (let i = 0; i < 7; i++) {
                 const date = new Date(today);
@@ -798,7 +798,7 @@
 
                 if (rehabData.checkins.includes(dateStr)) {
                     dot.classList.add('checked');
-                    dot.textContent = '‚úì';
+                    dot.textContent = '✓';
                 }
                 if (dateStr === getTodayString()) {
                     dot.classList.add('today');
@@ -808,22 +808,22 @@
             }
         }
 
-        // Êõ¥Êñ∞ËøõÂ∫¶Êù°
+        // 更新进度条
         function updateProgressBar() {
             const total = rehabData.checkins.length;
             const percent = Math.min(100, Math.round((total / 180) * 100));
 
             document.getElementById('progressBar').style.width = percent + '%';
             document.getElementById('progressPercent').textContent = percent + '%';
-            document.getElementById('progressDays').textContent = `Â∑≤ÊâìÂç° ${total}/180 Â§©`;
+            document.getElementById('progressDays').textContent = `已打卡 ${total}/180 天`;
         }
 
-        // Êõ¥Êñ∞Êú™ÊâìÂç°ÊèêÈÜí
+        // 更新未打卡提醒
         function updateReminderAlert() {
             const hour = new Date().getHours();
             const reminderAlert = document.getElementById('reminderAlert');
 
-            // ‰∏ãÂçà2ÁÇπÂêéÂ¶ÇÊûúÊ≤°ÊâìÂç°ÔºåÊòæÁ§∫ÊèêÈÜí
+            // 下午2点后如果没打卡，显示提醒
             if (hour >= 14 && !isTodayChecked()) {
                 reminderAlert.style.display = 'block';
             } else {
@@ -831,7 +831,7 @@
             }
         }
 
-        // Êõ¥Êñ∞ÈºìÂä±ËØ≠
+        // 更新鼓励语
         function updateMotivation() {
             const motivationBox = document.getElementById('motivationBox');
 
@@ -844,7 +844,7 @@
             }
         }
 
-        // ËÆ°ÁÆóË∑ùÁ¶ª‰∏ãÊ¨°ÊèêÈÜíÁöÑÊó∂Èó¥
+        // 计算距离下次提醒的时间
         function updateNextReminder() {
             if (!rehabData.notificationsEnabled) {
                 document.getElementById('nextReminder').textContent = '';
@@ -863,26 +863,26 @@
 
             if (currentMinutes < morningMinutes) {
                 nextTime = morningMinutes - currentMinutes;
-                nextLabel = 'Êó©‰∏ä';
+                nextLabel = '早上';
             } else if (currentMinutes < eveningMinutes) {
                 nextTime = eveningMinutes - currentMinutes;
-                nextLabel = 'Êôö‰∏ä';
+                nextLabel = '晚上';
             } else {
                 nextTime = (24 * 60 - currentMinutes) + morningMinutes;
-                nextLabel = 'ÊòéÂ§©Êó©‰∏ä';
+                nextLabel = '明天早上';
             }
 
             const hours = Math.floor(nextTime / 60);
             const minutes = nextTime % 60;
 
-            let text = `‚è∞ Ë∑ùÁ¶ª${nextLabel}ÊèêÈÜíËøòÊúâ `;
-            if (hours > 0) text += `${hours}Â∞èÊó∂`;
-            if (minutes > 0) text += `${minutes}ÂàÜÈíü`;
+            let text = `⏰ 距离${nextLabel}提醒还有 `;
+            if (hours > 0) text += `${hours}小时`;
+            if (minutes > 0) text += `${minutes}分钟`;
 
             document.getElementById('nextReminder').textContent = text;
         }
 
-        // Êõ¥Êñ∞UI
+        // 更新UI
         function updateUI() {
             const dayNum = getCurrentDay();
             document.getElementById('dayNumber').textContent = dayNum;
@@ -893,11 +893,11 @@
             const undoBtn = document.getElementById('undoBtn');
             if (isTodayChecked()) {
                 checkinBtn.classList.add('completed');
-                checkinBtn.textContent = '‰ªäÊó•Â∑≤ÊâìÂç° ‚úì';
+                checkinBtn.textContent = '今日已打卡 ✓';
                 undoBtn.disabled = false;
             } else {
                 checkinBtn.classList.remove('completed');
-                checkinBtn.textContent = '‰ªäÊó•ËÆ≠ÁªÉÊâìÂç°';
+                checkinBtn.textContent = '今日训练打卡';
                 undoBtn.disabled = true;
             }
 
@@ -911,13 +911,13 @@
             updateTheme();
         }
 
-        // ÂàáÊç¢Êúà‰ªΩ
+        // 切换月份
         function changeMonth(delta) {
             viewingMonth.setMonth(viewingMonth.getMonth() + delta);
             updateCalendar();
         }
 
-        // Êõ¥Êñ∞Êó•ÂéÜ
+        // 更新日历
         function updateCalendar() {
             const calendar = document.getElementById('calendar');
             const monthTitle = document.getElementById('monthTitle');
@@ -925,9 +925,9 @@
 
             const year = viewingMonth.getFullYear();
             const month = viewingMonth.getMonth();
-            monthTitle.textContent = `${year}Âπ¥${month + 1}Êúà`;
+            monthTitle.textContent = `${year}年${month + 1}月`;
 
-            const weekdays = ['Êó•', '‰∏Ä', '‰∫å', '‰∏â', 'Âõõ', '‰∫î', 'ÂÖ≠'];
+            const weekdays = ['日', '一', '二', '三', '四', '五', '六'];
             weekdays.forEach(day => {
                 const header = document.createElement('div');
                 header.className = 'calendar-header';
@@ -972,11 +972,11 @@
                 cell.onclick = function(e) {
                     e.stopPropagation();
 
-                    // Â¶ÇÊûúÂ∑≤ÊâìÂç°ÔºåÁÇπÂáªÊü•Áúã/ÁºñËæëÂ§áÊ≥®
+                    // 如果已打卡，点击查看/编辑备注
                     if (rehabData.checkins.includes(dateStr)) {
                         openNoteModal(dateStr, false);
                     } else {
-                        // Êú™ÊâìÂç°ÁöÑÊó•ÊúüÔºåÂàáÊç¢ÊâìÂç°Áä∂ÊÄÅ
+                        // 未打卡的日期，切换打卡状态
                         rehabData.checkins.push(dateStr);
                         saveData();
                         updateUI();
@@ -996,10 +996,10 @@
             }
         }
 
-        // ÂºÄÂêØÈÄöÁü•
+        // 开启通知
         async function enableNotifications() {
             if (!('Notification' in window)) {
-                alert('‰Ω†ÁöÑÊµèËßàÂô®‰∏çÊîØÊåÅÈÄöÁü•ÂäüËÉΩ');
+                alert('你的浏览器不支持通知功能');
                 return;
             }
 
@@ -1011,20 +1011,20 @@
                 saveData();
                 updateNotificationStatus();
                 scheduleNotifications();
-                new Notification('üéâ ÈÄöÁü•Â∑≤ÂºÄÂêØ', {
-                    body: `‰ºöÂú®${rehabData.morningTime}Âíå${rehabData.eveningTime}ÊèêÈÜí‰Ω†ËÆ≠ÁªÉ`,
+                new Notification('🎉 通知已开启', {
+                    body: `会在${rehabData.morningTime}和${rehabData.eveningTime}提醒你训练`,
                 });
             } else {
-                alert('ÈúÄË¶ÅÂÖÅËÆ∏ÈÄöÁü•ÊùÉÈôêÊâçËÉΩÊèêÈÜí‰Ω†Âì¶');
+                alert('需要允许通知权限才能提醒你哦');
             }
         }
 
-        // Êõ¥Êñ∞ÈÄöÁü•Áä∂ÊÄÅ
+        // 更新通知状态
         function updateNotificationStatus() {
             const statusDiv = document.getElementById('notificationStatus');
             if (rehabData.notificationsEnabled) {
                 statusDiv.classList.add('enabled');
-                statusDiv.querySelector('p').textContent = '‚úÖ ÈÄöÁü•Â∑≤ÂºÄÂêØ';
+                statusDiv.querySelector('p').textContent = '✅ 通知已开启';
                 document.getElementById('morningTime').value = rehabData.morningTime;
                 document.getElementById('eveningTime').value = rehabData.eveningTime;
                 document.getElementById('morningTime').onchange = function() {
@@ -1040,7 +1040,7 @@
             }
         }
 
-        // ÂÆâÊéíÈÄöÁü•
+        // 安排通知
         function scheduleNotifications() {
             if (!rehabData.notificationsEnabled) return;
             setInterval(() => {
@@ -1048,14 +1048,14 @@
                 const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
                 if (!isTodayChecked()) {
                     if (currentTime === rehabData.morningTime) {
-                        new Notification('üåÖ Êó©‰∏äËÆ≠ÁªÉÊó∂Èó¥Âà∞‰∫ÜÔºÅ', {
-                            body: 'ËØ•ÂÅöÂ∫∑Â§çËÆ≠ÁªÉ‰∫ÜÔºåÂùöÊåÅÂ∞±ÊòØËÉúÂà©ÔºÅ',
+                        new Notification('🌅 早上训练时间到了！', {
+                            body: '该做康复训练了，坚持就是胜利！',
                             requireInteraction: true
                         });
                     }
                     if (currentTime === rehabData.eveningTime) {
-                        new Notification('üåô Êôö‰∏äËÆ≠ÁªÉÊó∂Èó¥Âà∞‰∫ÜÔºÅ', {
-                            body: 'Âà´Âøò‰∫Ü‰ªäÂ§©ÁöÑÂ∫∑Â§çËÆ≠ÁªÉÂì¶ÔºÅ',
+                        new Notification('🌙 晚上训练时间到了！', {
+                            body: '别忘了今天的康复训练哦！',
                             requireInteraction: true
                         });
                     }
@@ -1064,7 +1064,7 @@
             }, 60000);
         }
 
-        // ÂØºÂá∫Êï∞ÊçÆ
+        // 导出数据
         function exportData() {
             const dataStr = JSON.stringify(rehabData, null, 2);
             const blob = new Blob([dataStr], { type: 'application/json' });
@@ -1072,16 +1072,16 @@
 
             const a = document.createElement('a');
             a.href = url;
-            a.download = `ËÜùÁõñÂ∫∑Â§çÊï∞ÊçÆ_${getTodayString()}.json`;
+            a.download = `膝盖康复数据_${getTodayString()}.json`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
 
-            alert('‚úÖ Êï∞ÊçÆÂ∑≤ÂØºÂá∫ÔºÅËØ∑Â¶•ÂñÑ‰øùÂ≠òÊñá‰ª∂ÔºåÊç¢ËÆæÂ§áÊó∂ÂèØ‰ª•ÂØºÂÖ•ÊÅ¢Â§ç„ÄÇ');
+            alert('✅ 数据已导出！请妥善保存文件，换设备时可以导入恢复。');
         }
 
-        // ÂØºÂÖ•Êï∞ÊçÆ
+        // 导入数据
         function importData(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -1091,35 +1091,35 @@
                 try {
                     const importedData = JSON.parse(e.target.result);
 
-                    // È™åËØÅÊï∞ÊçÆÊ†ºÂºè
+                    // 验证数据格式
                     if (!importedData.startDate || !Array.isArray(importedData.checkins)) {
-                        throw new Error('Êï∞ÊçÆÊ†ºÂºè‰∏çÊ≠£Á°Æ');
+                        throw new Error('数据格式不正确');
                     }
 
-                    if (confirm(`Á°ÆÂÆöË¶ÅÂØºÂÖ•Êï∞ÊçÆÂêóÔºü\n\nÂØºÂÖ•ÁöÑÊï∞ÊçÆÂåÖÂê´Ôºö\n‚Ä¢ ÂºÄÂßãÊó•ÊúüÔºö${importedData.startDate}\n‚Ä¢ ÊâìÂç°ËÆ∞ÂΩïÔºö${importedData.checkins.length}Â§©\n‚Ä¢ Â§áÊ≥®ËÆ∞ÂΩïÔºö${Object.keys(importedData.notes || {}).length}Êù°\n\n‚ö†Ô∏è ËøôÂ∞ÜË¶ÜÁõñÂΩìÂâçÊâÄÊúâÊï∞ÊçÆÔºÅ`)) {
-                        // ÂêàÂπ∂Êï∞ÊçÆÔºå‰øùÁïô‰∏Ä‰∫õÊú¨Âú∞ËÆæÁΩÆ
+                    if (confirm(`确定要导入数据吗？\n\n导入的数据包含：\n• 开始日期：${importedData.startDate}\n• 打卡记录：${importedData.checkins.length}天\n• 备注记录：${Object.keys(importedData.notes || {}).length}条\n\n⚠️ 这将覆盖当前所有数据！`)) {
+                        // 合并数据，保留一些本地设置
                         rehabData = {
                             ...importedData,
                             notes: importedData.notes || {},
                             shownMilestones: importedData.shownMilestones || [],
-                            darkMode: rehabData.darkMode // ‰øùÁïôÂΩìÂâç‰∏ªÈ¢òËÆæÁΩÆ
+                            darkMode: rehabData.darkMode // 保留当前主题设置
                         };
                         saveData();
                         viewingMonth = new Date();
                         updateUI();
-                        alert('‚úÖ Êï∞ÊçÆÂØºÂÖ•ÊàêÂäüÔºÅ');
+                        alert('✅ 数据导入成功！');
                     }
                 } catch (err) {
-                    alert('‚ùå ÂØºÂÖ•Â§±Ë¥•ÔºöÊñá‰ª∂Ê†ºÂºè‰∏çÊ≠£Á°ÆÔºåËØ∑Á°ÆËÆ§ÊòØÊ≠£Á°ÆÁöÑÂ§á‰ªΩÊñá‰ª∂„ÄÇ');
+                    alert('❌ 导入失败：文件格式不正确，请确认是正确的备份文件。');
                 }
             };
             reader.readAsText(file);
-            event.target.value = ''; // Ê∏ÖÁ©∫inputÔºåÂÖÅËÆ∏ÈáçÂ§çÂØºÂÖ•Âêå‰∏ÄÊñá‰ª∂
+            event.target.value = ''; // 清空input，允许重复导入同一文件
         }
 
-        // ÈáçÁΩÆËøõÂ∫¶
+        // 重置进度
         function resetProgress() {
-            if (confirm('Á°ÆÂÆöË¶ÅÈáçÁΩÆÂ∫∑Â§çËÆ°ÂàíÂêóÔºü\n\n‚ö†Ô∏è ËøôÂ∞ÜÊ∏ÖÈô§ÊâÄÊúâÊâìÂç°ËÆ∞ÂΩïÂíåÂ§áÊ≥®Ôºå‰ªéÁ¨¨1Â§©ÈáçÊñ∞ÂºÄÂßã„ÄÇ\n\nÂª∫ËÆÆÂÖàÂØºÂá∫Êï∞ÊçÆÂ§á‰ªΩÔºÅ')) {
+            if (confirm('确定要重置康复计划吗？\n\n⚠️ 这将清除所有打卡记录和备注，从第1天重新开始。\n\n建议先导出数据备份！')) {
                 rehabData = {
                     startDate: new Date().toISOString().split('T')[0],
                     checkins: [],
@@ -1133,11 +1133,11 @@
                 saveData();
                 viewingMonth = new Date();
                 updateUI();
-                alert('Â∫∑Â§çËÆ°ÂàíÂ∑≤ÈáçÁΩÆÔºå‰ªéÁ¨¨1Â§©ÂºÄÂßãÔºÅ');
+                alert('康复计划已重置，从第1天开始！');
             }
         }
 
-        // Â±ïÂºÄ/ÊäòÂè†ËÆ≠ÁªÉÂä®‰Ωú
+        // 展开/折叠训练动作
         function toggleExercise(element) {
             element.classList.toggle('expanded');
             updateCollapseButton();
@@ -1160,10 +1160,10 @@
         function updateCollapseButton() {
             const items = document.querySelectorAll('.exercise-item');
             const allExpanded = Array.from(items).every(item => item.classList.contains('expanded'));
-            document.getElementById('collapseBtn').textContent = allExpanded ? 'ÂÖ®ÈÉ®ÊäòÂè†' : 'ÂÖ®ÈÉ®Â±ïÂºÄ';
+            document.getElementById('collapseBtn').textContent = allExpanded ? '全部折叠' : '全部展开';
         }
 
-        // Ê∑±Ëâ≤Ê®°Âºè
+        // 深色模式
         function toggleTheme() {
             rehabData.darkMode = !rehabData.darkMode;
             saveData();
@@ -1173,36 +1173,36 @@
         function updateTheme() {
             if (rehabData.darkMode) {
                 document.documentElement.classList.add('dark-mode');
-                document.querySelector('.theme-toggle').textContent = '‚òÄÔ∏è';
+                document.querySelector('.theme-toggle').textContent = '☀️';
             } else {
                 document.documentElement.classList.remove('dark-mode');
-                document.querySelector('.theme-toggle').textContent = 'üåô';
+                document.querySelector('.theme-toggle').textContent = '🌙';
             }
         }
 
-        // ÁÇπÂáªÊ®°ÊÄÅÊ°ÜÂ§ñÈÉ®ÂÖ≥Èó≠
+        // 点击模态框外部关闭
         document.getElementById('noteModal').addEventListener('click', function(e) {
             if (e.target === this) {
                 closeNoteModal();
             }
         });
 
-        // È°µÈù¢Âä†ËΩΩÊó∂ÂàùÂßãÂåñ
+        // 页面加载时初始化
         window.onload = function() {
             updateUI();
             if (rehabData.notificationsEnabled) {
                 scheduleNotifications();
             }
 
-            // Ê£ÄÊü•ÊòØÂê¶Á¨¨20Â§©ÔºàÈ¶ñÊ¨°ËøõÂÖ•Êó∂Ê£ÄÊü•Ôºâ
+            // 检查是否第20天（首次进入时检查）
             const currentDay = getCurrentDay();
             if (currentDay >= 20 && !rehabData.shownMilestones.includes('day20')) {
                 rehabData.shownMilestones.push('day20');
                 saveData();
-                showMilestone("üéä ËøõÂÖ•Á¨¨‰∫åÈò∂ÊÆµÔºÅ", "ÊÅ≠ÂñúÔºÅ‰ªé‰ªäÂ§©ÂºÄÂßãÂèØ‰ª•ÂÅöÂêéÈù¢4‰∏™Âä®‰Ωú‰∫ÜÔºöÈù†Â¢ôÈùôËπ≤„ÄÅÂèåËÖø‰∏ãËπ≤„ÄÅÂâçÂêëÂºìÊ≠•„ÄÅÂêéÂêëÂºìÊ≠•ÔºÅ");
+                showMilestone("🎊 进入第二阶段！", "恭喜！从今天开始可以做后面4个动作了：靠墙静蹲、双腿下蹲、前向弓步、后向弓步！");
             }
 
-            // ÊØèÂàÜÈíüÊõ¥Êñ∞‰∏ÄÊ¨°ÊèêÈÜíÁõ∏ÂÖ≥Áä∂ÊÄÅ
+            // 每分钟更新一次提醒相关状态
             setInterval(() => {
                 updateReminderAlert();
                 updateNextReminder();
